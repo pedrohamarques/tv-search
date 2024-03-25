@@ -1,11 +1,13 @@
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamsList, RouteStackList } from "@typings/route";
 
 export function useMoviesList() {
-    const navigation = useNavigation<NavigationProp<RootStackParamsList>>();
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
 
     function handlePress() {
-        navigation.navigate(RouteStackList.MOVIE);
+        navigation.push(RouteStackList.MOVIE, { item: [] });
     }
 
     return {

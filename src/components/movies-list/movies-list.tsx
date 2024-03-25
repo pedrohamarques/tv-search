@@ -12,19 +12,24 @@ import { MovieItem } from "./components";
 type MoviesListProps = {
     title: string;
     data: [];
+    hideSeeAll?: boolean;
 };
 
-export function MoviesList({ title, data }: MoviesListProps) {
+const movieName = "Naruto";
+
+export function MoviesList({ title, data, hideSeeAll }: MoviesListProps) {
     const { handlePress } = useMoviesList();
     return (
         <View className='mb-8 space-y-4'>
             <View className='mx-4 flex-row justify-between items-center'>
                 <Text className='text-white text-xl'>{title}</Text>
-                <TouchableOpacity>
-                    <Text style={styles.text} className='text-lg'>
-                        See All
-                    </Text>
-                </TouchableOpacity>
+                {!hideSeeAll && (
+                    <TouchableOpacity>
+                        <Text style={styles.text} className='text-lg'>
+                            See All
+                        </Text>
+                    </TouchableOpacity>
+                )}
             </View>
             <ScrollView
                 horizontal
@@ -33,7 +38,7 @@ export function MoviesList({ title, data }: MoviesListProps) {
                 {data.map((item, index) => (
                     <MovieItem
                         key={index}
-                        movieName={item.movieName}
+                        movieName={movieName}
                         handlePress={handlePress}
                     />
                 ))}
