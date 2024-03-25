@@ -9,13 +9,19 @@ import {
 
 import { styles } from "@themes/index";
 
-import { MoviesList, TrendingMovies } from "@components/index";
+import { Loading, MoviesList, TrendingMovies } from "@components/index";
 
 import { useHomeScreen } from "./home.hook";
 
 export function HomeScreen() {
-    const { isIos, trendingMovies, upcomingMovies, topRatedMovies } =
-        useHomeScreen();
+    const {
+        isIos,
+        isLoading,
+        trendingMovies,
+        upcomingMovies,
+        topRatedMovies,
+        handleSearchPress,
+    } = useHomeScreen();
     return (
         <View className='flex-1 bg-neutral-800'>
             <SafeAreaView className={isIos ? "-mb-2" : "mb-3"}>
@@ -29,7 +35,7 @@ export function HomeScreen() {
                     <Text className='text-white text-3xl font-bold'>
                         <Text style={styles.text}>M</Text>ovies
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleSearchPress}>
                         <MagnifyingGlassIcon
                             size='30'
                             strokeWidth={2}
@@ -39,15 +45,19 @@ export function HomeScreen() {
                 </View>
             </SafeAreaView>
 
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 10 }}>
-                <TrendingMovies data={trendingMovies} />
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ paddingBottom: 10 }}>
+                    <TrendingMovies data={trendingMovies} />
 
-                <MoviesList title='Upcoming' data={upcomingMovies} />
+                    <MoviesList title='Upcoming' data={upcomingMovies} />
 
-                <MoviesList title='Top Rated' data={topRatedMovies} />
-            </ScrollView>
+                    <MoviesList title='Top Rated' data={topRatedMovies} />
+                </ScrollView>
+            )}
         </View>
     );
 }
