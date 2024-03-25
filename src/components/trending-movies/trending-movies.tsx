@@ -4,6 +4,8 @@ import Carousel from "react-native-reanimated-carousel";
 
 import { MovieCard } from "@components/index";
 
+import { useTrendingMovies } from "./trending-movies.hook";
+
 type TrendingMoviesProps = {
     data: [];
 };
@@ -11,6 +13,7 @@ type TrendingMoviesProps = {
 const { width } = Dimensions.get("window");
 
 export function TrendingMovies({ data }: TrendingMoviesProps) {
+    const { handleCardPress } = useTrendingMovies();
     return (
         <View className='mb-8'>
             <Text className='text-white text-xl mx-4 mb-5'>Trending</Text>
@@ -22,7 +25,9 @@ export function TrendingMovies({ data }: TrendingMoviesProps) {
                 loop
                 scrollAnimationDuration={1000}
                 autoPlay={false}
-                renderItem={({ item }) => <MovieCard item={item} />}
+                renderItem={({ item }) => (
+                    <MovieCard item={item} handlePress={handleCardPress} />
+                )}
             />
         </View>
     );
