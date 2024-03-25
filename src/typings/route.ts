@@ -1,6 +1,8 @@
+import { TrendingMoveResults } from "./data";
+
 export type RootStackParamsList = {
     [RouteStackList.HOME]: undefined;
-    [RouteStackList.MOVIE]: { item: any };
+    [RouteStackList.MOVIE]: { movieDetails: TrendingMoveResults };
     [RouteStackList.PERSON]: undefined;
     [RouteStackList.SEARCH]: undefined;
 };
