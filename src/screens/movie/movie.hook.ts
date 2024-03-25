@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Platform } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { RootStackParamsList, RouteStackList } from "@typings/route";
@@ -12,6 +11,11 @@ export function useMovieScreen() {
     const [isLoading, setIsLoading] = useState(false);
 
     const route = useRoute<RouteProp<RootStackParamsList>>();
+
+    const movieDetails = route.params?.movieDetails
+        ? route.params.movieDetails
+        : null;
+
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
 
@@ -38,5 +42,6 @@ export function useMovieScreen() {
         isFavorite,
         similarMovies,
         isLoading,
+        movieDetails,
     };
 }

@@ -1,29 +1,56 @@
-import React from "react";
-import {
-    Dimensions,
-    Image,
-    Platform,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import React, { useLayoutEffect } from "react";
+import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
 
 import { styles, theme } from "@themes/index";
-import { useMovieScreen } from "./movie.hook";
+
 import { Cast, Loading, MoviesList } from "@components/index";
+
+import { imageURI } from "@constants/url";
+
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamsList } from "@typings/route";
+
+import { useMovieScreen } from "./movie.hook";
 
 const { width, height } = Dimensions.get("window");
 
-const topMargin = Platform.OS === "ios" ? "" : "mt-3";
+type MovieScreenNavigationProps = {
+    navigation: Pick<
+        NativeStackNavigationProp<RootStackParamsList>,
+        "setOptions"
+    >;
+};
 
-const movieName = "AntMan and Other Stuff";
-
-export function MovieScreen() {
+export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <TouchableOpacity
+                    style={[
+                        styles.background,
+                        { padding: 1, borderRadius: 12 },
+                    ]}
+                    onPress={handleBackPress}>
+                    <ChevronLeftIcon
+                        size='28'
+                        strokeWidth={2.5}
+                        color='white'
+                    />
+                </TouchableOpacity>
+            ),
+            headerRight: () => (
+                <TouchableOpacity onPress={handleFavoritePress}>
+                    <HeartIcon
+                        size='35'
+                        color={isFavorite ? theme.background : "white"}
+                    />
+                </TouchableOpacity>
+            ),
+        });
+    });
     const {
         handleBackPress,
         handleFavoritePress,
@@ -31,66 +58,41 @@ export function MovieScreen() {
         isFavorite,
         similarMovies,
         isLoading,
+        movieDetails,
     } = useMovieScreen();
+
+    console.log(movieDetails);
 
     return (
         <ScrollView
             contentContainerStyle={{ paddingBottom: 20 }}
             className='flex-1 bg-neutral-900'>
-            <SafeAreaView className='absolute z-20 w-full'>
-                <View
-                    className={
-                        "w-full flex-row justify-between items-center px-4" +
-                        topMargin
-                    }>
-                    <TouchableOpacity
-                        style={styles.background}
-                        className='rounded-xl p-1'
-                        onPress={handleBackPress}>
-                        <ChevronLeftIcon
-                            size='28'
-                            strokeWidth={2.5}
-                            color='white'
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleFavoritePress}>
-                        <HeartIcon
-                            size='35'
-                            color={isFavorite ? theme.background : "white"}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </SafeAreaView>
             {isLoading ? (
                 <Loading />
             ) : (
                 <View>
                     <Image
-                        source={require("../../../assets/favicon.png")}
-                        style={{ width: width, height: height * 0.55 }}
-                    />
-                    <LinearGradient
-                        colors={[
-                            "transparent",
-                            "rgba(23,23,23, 0.8)",
-                            " rgba(23,23,23,1)",
-                        ]}
-                        style={{ width, height: height * 0.4 }}
-                        start={{ x: 0.5, y: 1 }}
-                        className='absolute bottom-0'
+                        source={{
+                            uri: `${imageURI}${movieDetails!.poster_path}`,
+                        }}
+                        style={{
+                            width: width * 0.85,
+                            height: height * 0.55,
+                        }}
+                        className='rounded-2xl self-center mt-4'
                     />
                 </View>
             )}
 
-            <View style={{ marginTop: -(height * 0.08) }} className='space-y-3'>
+            <View className='space-y-3 my-10'>
                 <Text className='text-white text-center text-3xl font-bold tracking-wider'>
-                    {movieName}
+                    {movieDetails!.title}
                 </Text>
                 <Text className='text-neutral-400 font-semibold text-base text-center'>
-                    Released in 2020 of 170 min
+                    {`Released in ${new Date(movieDetails!.release_date).getFullYear()}`}
                 </Text>
 
-                <View className='flex-row justify-center mx-4 space-x-2'>
+                <View className='flex-row justify-center mx-4 space-x-2 my-4'>
                     <Text className='text-neutral-400 font-semibold text-base text-center'>
                         Action *
                     </Text>
@@ -103,7 +105,7 @@ export function MovieScreen() {
                 </View>
 
                 <Text className='text-neutral-400 mx-4 tracking-wide'>
-                    Description
+                    {movieDetails!.overview}
                 </Text>
             </View>
 

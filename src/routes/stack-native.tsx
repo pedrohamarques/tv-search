@@ -21,7 +21,11 @@ export function RootNavigation() {
             <Stack.Screen
                 name={RouteStackList.MOVIE}
                 component={MovieScreen}
-                options={{ headerShown: false }}
+                options={{
+                    headerTitle: "",
+                    headerBackTitleVisible: false,
+                    headerStyle: { backgroundColor: "rgba(23, 23, 23, 1)" },
+                }}
             />
             <Stack.Screen
                 name={RouteStackList.PERSON}
