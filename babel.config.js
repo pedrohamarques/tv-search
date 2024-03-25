@@ -11,8 +11,9 @@ module.exports = function (api) {
                 {
                     alias: {
                         "@routes": "./src/routes",
-                        "@typings/": "./src/typings",
-                        "@screens/": "./src/screens",
+                        "@typings": "./src/typings",
+                        "@screens": "./src/screens",
+                        "@themes": "./src/themes",
                     },
                 },
             ],

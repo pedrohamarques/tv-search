@@ -6,7 +6,8 @@
         "paths": {
             "@routes/*": ["./src/routes/*"],
             "@typings/*": ["./src/typings/*"],
-            "@screens/*": ["./src/screens/*"]
+            "@screens/*": ["./src/screens/*"],
+            "@themes/*": ["./src/themes/*"]
         }
     }
 }
