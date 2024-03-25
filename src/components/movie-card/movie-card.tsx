@@ -1,8 +1,12 @@
 import React from "react";
 import { Image, TouchableWithoutFeedback, Dimensions } from "react-native";
 
+import { imageURI } from "@constants/url";
+
+import { TrendingMoveResults } from "@typings/data";
+
 type MovieCardProps = {
-    item: any;
+    item: TrendingMoveResults;
     handlePress: () => void;
 };
 
@@ -11,7 +15,7 @@ export function MovieCard({ item, handlePress }: MovieCardProps) {
     return (
         <TouchableWithoutFeedback onPress={handlePress}>
             <Image
-                source={require("../../../assets/favicon.png")}
+                source={{ uri: `${imageURI}${item.poster_path}` }}
                 style={{ width: width * 0.6, height: height * 0.4 }}
                 className='rounded-3xl'
             />
