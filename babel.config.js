@@ -15,7 +15,16 @@ module.exports = function (api) {
                         "@screens": "./src/screens",
                         "@themes": "./src/themes",
                         "@components": "./src/components",
+                        "@services": "./src/services",
                     },
+                },
+            ],
+            [
+                "module:react-native-dotenv",
+                {
+                    moduleName: "@env",
+                    verbose: false,
+                    path: ".env",
                 },
             ],
             "react-native-reanimated/plugin",
