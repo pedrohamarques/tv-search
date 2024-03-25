@@ -3,5 +3,5 @@ export type RootStackParamsList = {
 };
 
 export enum RouteStackList {
-    HOME = "Home",
+    HOME = "HomeScreen",
 }
