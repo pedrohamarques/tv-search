@@ -9,12 +9,13 @@ import {
 
 import { styles } from "@themes/index";
 
-import { TrendingMovies } from "@components/index";
+import { MoviesList, TrendingMovies } from "@components/index";
 
 import { useHomeScreen } from "./home.hook";
 
 export function HomeScreen() {
-    const { isIos, trendingMovies } = useHomeScreen();
+    const { isIos, trendingMovies, upcomingMovies, topRatedMovies } =
+        useHomeScreen();
     return (
         <View className='flex-1 bg-neutral-800'>
             <SafeAreaView className={isIos ? "-mb-2" : "mb-3"}>
@@ -42,6 +43,10 @@ export function HomeScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 10 }}>
                 <TrendingMovies data={trendingMovies} />
+
+                <MoviesList title='Upcoming' data={upcomingMovies} />
+
+                <MoviesList title='Top Rated' data={topRatedMovies} />
             </ScrollView>
         </View>
     );
