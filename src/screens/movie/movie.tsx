@@ -15,7 +15,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import { styles, theme } from "@themes/index";
 import { useMovieScreen } from "./movie.hook";
-import { Cast } from "@components/index";
+import { Cast, Loading, MoviesList } from "@components/index";
 
 const { width, height } = Dimensions.get("window");
 
@@ -29,6 +29,8 @@ export function MovieScreen() {
         handleFavoritePress,
         handleCastPress,
         isFavorite,
+        similarMovies,
+        isLoading,
     } = useMovieScreen();
 
     return (
@@ -59,22 +61,26 @@ export function MovieScreen() {
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
-            <View>
-                <Image
-                    source={require("../../../assets/favicon.png")}
-                    style={{ width: width, height: height * 0.55 }}
-                />
-                <LinearGradient
-                    colors={[
-                        "transparent",
-                        "rgba(23,23,23, 0.8)",
-                        " rgba(23,23,23,1)",
-                    ]}
-                    style={{ width, height: height * 0.4 }}
-                    start={{ x: 0.5, y: 1 }}
-                    className='absolute bottom-0'
-                />
-            </View>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <View>
+                    <Image
+                        source={require("../../../assets/favicon.png")}
+                        style={{ width: width, height: height * 0.55 }}
+                    />
+                    <LinearGradient
+                        colors={[
+                            "transparent",
+                            "rgba(23,23,23, 0.8)",
+                            " rgba(23,23,23,1)",
+                        ]}
+                        style={{ width, height: height * 0.4 }}
+                        start={{ x: 0.5, y: 1 }}
+                        className='absolute bottom-0'
+                    />
+                </View>
+            )}
 
             <View style={{ marginTop: -(height * 0.08) }} className='space-y-3'>
                 <Text className='text-white text-center text-3xl font-bold tracking-wider'>
@@ -102,6 +108,12 @@ export function MovieScreen() {
             </View>
 
             <Cast cast={[1, 2, 3]} handleCastPress={handleCastPress} />
+
+            <MoviesList
+                title='Similar Movies'
+                data={similarMovies}
+                hideSeeAll
+            />
         </ScrollView>
     );
 }
