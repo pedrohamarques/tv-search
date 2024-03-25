@@ -14,9 +14,11 @@ module.exports = function (api) {
                         "@typings": "./src/typings",
                         "@screens": "./src/screens",
                         "@themes": "./src/themes",
+                        "@components": "./src/components",
                     },
                 },
             ],
+            "react-native-reanimated/plugin",
         ],
     };
 };
