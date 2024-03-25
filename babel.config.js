@@ -9,7 +9,11 @@ module.exports = function (api) {
             [
                 "module-resolver",
                 {
-                    alias: {},
+                    alias: {
+                        "@routes": "./src/routes",
+                        "@typings/": "./src/typings",
+                        "@screens/": "./src/screens",
+                    },
                 },
             ],
         ],

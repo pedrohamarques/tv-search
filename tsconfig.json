@@ -3,6 +3,10 @@
     "compilerOptions": {
         "strict": true,
         "baseUrl": "./",
-        "paths": {}
+        "paths": {
+            "@routes/*": ["./src/routes/*"],
+            "@typings/*": ["./src/typings/*"],
+            "@screens/*": ["./src/screens/*"]
+        }
     }
 }
