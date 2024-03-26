@@ -1,29 +1,66 @@
-import { styles, theme } from "@themes/index";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import {
     Dimensions,
     Image,
-    Platform,
     ScrollView,
     Text,
     View,
+    TouchableOpacity,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { usePersonScreen } from "./person.hook";
+
+import { styles, theme } from "@themes/index";
+
 import { Loading, MoviesList } from "@components/index";
 
-const ios = Platform.OS === "ios";
+import { usePersonScreen } from "./person.hook";
+
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamsList } from "@typings/route";
+import { imageURI } from "@constants/url";
+
+type PersonScreenNavigationProps = {
+    navigation: Pick<
+        NativeStackNavigationProp<RootStackParamsList>,
+        "setOptions"
+    >;
+};
+
 const { width, height } = Dimensions.get("window");
 
-const verticalMargin = ios ? "" : "my-3";
-export function PersonScreen() {
+export function PersonScreen({ navigation }: PersonScreenNavigationProps) {
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <TouchableOpacity
+                    style={[
+                        styles.background,
+                        { padding: 1, borderRadius: 12 },
+                    ]}
+                    onPress={handleBackPress}>
+                    <ChevronLeftIcon
+                        size='28'
+                        strokeWidth={2.5}
+                        color='white'
+                    />
+                </TouchableOpacity>
+            ),
+            headerRight: () => (
+                <TouchableOpacity onPress={handleFavoritePress}>
+                    <HeartIcon
+                        size='35'
+                        color={isFavorite ? theme.background : "white"}
+                    />
+                </TouchableOpacity>
+            ),
+        });
+    });
     const {
         isFavorite,
         personMovies,
         isLoading,
+        personDetails,
         handleFavoritePress,
         handleBackPress,
     } = usePersonScreen();
@@ -31,29 +68,6 @@ export function PersonScreen() {
         <ScrollView
             className='flex-1 bg-neutral-900'
             contentContainerStyle={{ paddingBottom: 20 }}>
-            <SafeAreaView
-                className={
-                    "z-20 w-full flex-row justify-between items-center px-4 " +
-                    verticalMargin
-                }>
-                <TouchableOpacity
-                    onPress={handleBackPress}
-                    style={styles.background}
-                    className='rounded-xl'>
-                    <ChevronLeftIcon
-                        size='28'
-                        strokeWidth={2.5}
-                        color='white'
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleFavoritePress}>
-                    <HeartIcon
-                        size='35'
-                        color={isFavorite ? theme.background : "white"}
-                    />
-                </TouchableOpacity>
-            </SafeAreaView>
-
             {isLoading ? (
                 <Loading />
             ) : (
@@ -68,7 +82,13 @@ export function PersonScreen() {
                         }}>
                         <View className='items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-400'>
                             <Image
-                                source={require("../../../assets/favicon.png")}
+                                source={
+                                    personDetails?.profile_path
+                                        ? {
+                                              uri: `${imageURI}${personDetails.profile_path}`,
+                                          }
+                                        : require("@assets/avatar.png")
+                                }
                                 style={{
                                     height: height * 0.43,
                                     width: width * 0.74,
@@ -79,10 +99,10 @@ export function PersonScreen() {
 
                     <View className='mt-6'>
                         <Text className='text-3xl text-white font-bold text-center'>
-                            Keanu Reeves
+                            {personDetails?.name}
                         </Text>
                         <Text className='text-base text-neutral-400 text-center'>
-                            London, United Kingdom
+                            {personDetails?.place_of_birth}
                         </Text>
                     </View>
 
@@ -92,47 +112,43 @@ export function PersonScreen() {
                                 Gender
                             </Text>
                             <Text className='text-neutral-300 text-sm '>
-                                Male
+                                {personDetails?.gender}
                             </Text>
                         </View>
-                        <View className='border-r-2 border-r-neutral-400 px-2 items-center'>
+                        <View className='border-r-2 border-r-neutral-400 pr-4 items-center'>
                             <Text className='text-white font-semibold'>
                                 Birthday
                             </Text>
                             <Text className='text-neutral-300 text-sm '>
-                                1964/09-02
+                                {personDetails?.birthday}
                             </Text>
                         </View>
-                        <View className='border-r-2 border-r-neutral-400 px-2 items-center'>
+                        <View className='border-r-2 border-r-neutral-400 pr-4 items-center'>
                             <Text className='text-white font-semibold'>
                                 Known for
                             </Text>
                             <Text className='text-neutral-300 text-sm '>
-                                Acting
+                                {personDetails?.known_for_department}
                             </Text>
                         </View>
-                        <View className='border-r-2 border-r-neutral-400 px-2 items-center'>
+                        <View className='pr-4 items-center'>
                             <Text className='text-white font-semibold'>
                                 Popularity
                             </Text>
                             <Text className='text-neutral-300 text-sm '>
-                                64.23
+                                {personDetails?.popularity}%
                             </Text>
                         </View>
                     </View>
 
-                    <View className='my-6 mx-4 space-y-2'>
+                    <View className='my-6 mx-4 space-y-2 mb-8'>
                         <Text className='text-white text-lg'>Biography</Text>
-                        <Text className='text-neutral-400 tracking-wide'>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Id voluptatem autem fuga beatae quis quos
-                            dolore? Quae quos maxime accusamus, odio
-                            perspiciatis aut. Necessitatibus, vel. Tenetur
-                            itaque et ducimus blanditiis.
+                        <Text className='text-neutral-400 tracking-wide mt-4'>
+                            {personDetails?.biography}
                         </Text>
                     </View>
 
-                    <MoviesList data={[1, 2, 3]} title='Movies' hideSeeAll />
+                    <MoviesList data={personMovies} title='Movies' hideSeeAll />
                 </View>
             )}
         </ScrollView>
