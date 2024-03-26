@@ -2,7 +2,7 @@ import React from "react";
 import { Dimensions, Text, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 
-import { MovieCard } from "@components/index";
+import { MovieCard } from "./components/movie-card";
 
 import { useTrendingMovies } from "./trending-movies.hook";
 import { TrendingMoveResults } from "@typings/data";
