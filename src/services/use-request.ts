@@ -1,7 +1,16 @@
 import axios from "axios";
 
 import { TMDB_API_KEY } from "@env";
-import { TrendingMovieResponse } from "@typings/data";
+import {
+    CastDetails,
+    CastMoviesResponse,
+    MovieCreditResponse,
+    MovieDetailsResponse,
+    SimilarMovieResponse,
+    TopRatedMovieResponse,
+    TrendingMovieResponse,
+    UpcomingMovieResponse,
+} from "@typings/data";
 
 const apiBaseUrl = "https://api.themoviedb.org/3";
 
@@ -9,6 +18,22 @@ const trendingMoviesEndPoint = `${apiBaseUrl}/trending/movie/day?api_key=${TMDB_
 const upcomingMoviesEndPoint = `${apiBaseUrl}/movie/upcoming?api_key=${TMDB_API_KEY}`;
 const topRatedMoviesEndPoint = `${apiBaseUrl}/movie/top_rated?api_key=${TMDB_API_KEY}`;
 
+const movieDetailsEndPoint = (movieId: number) =>
+    `${apiBaseUrl}/movie/${movieId}?api_key=${TMDB_API_KEY}`;
+
+const movieCreditsEndPoint = (movieId: number) =>
+    `${apiBaseUrl}/movie/${movieId}/credits?api_key=${TMDB_API_KEY}`;
+
+const similarMoviesEndPoint = (movieId: number) =>
+    `${apiBaseUrl}/movie/${movieId}/similar?api_key=${TMDB_API_KEY}`;
+
+const personDetailsEndPoint = (id: number) =>
+    `${apiBaseUrl}/person/${id}?api_key=${TMDB_API_KEY}`;
+
+const personMoviesEndPoint = (id: number) =>
+    `${apiBaseUrl}/person/${id}/movie_credits?api_key=${TMDB_API_KEY}`;
+
+`https://api.themoviedb.org/3/person/1234/movie_credits`;
 export function useRequests() {
     async function apiCall<T>(endpoint: string, params: null | object) {
         const options = {
@@ -30,16 +55,41 @@ export function useRequests() {
     }
 
     function fetchUpcomingMovies() {
-        return apiCall(upcomingMoviesEndPoint, null);
+        return apiCall<UpcomingMovieResponse>(upcomingMoviesEndPoint, null);
     }
 
     function fetchTopRatedMovies() {
-        return apiCall(topRatedMoviesEndPoint, null);
+        return apiCall<TopRatedMovieResponse>(topRatedMoviesEndPoint, null);
+    }
+
+    function fetchMovieDetails(id: number) {
+        return apiCall<MovieDetailsResponse>(movieDetailsEndPoint(id), null);
+    }
+
+    function fetchMovieCredits(id: number) {
+        return apiCall<MovieCreditResponse>(movieCreditsEndPoint(id), null);
+    }
+
+    function fetchSimilarMovies(id: number) {
+        return apiCall<SimilarMovieResponse>(similarMoviesEndPoint(id), null);
+    }
+
+    function fetchPersonDetails(id: number) {
+        return apiCall<CastDetails>(personDetailsEndPoint(id), null);
+    }
+
+    function fetchPersonMovies(id: number) {
+        return apiCall<CastMoviesResponse>(personMoviesEndPoint(id), null);
     }
 
     return {
         fetchTopRatedMovies,
         fetchTrendingMovies,
         fetchUpcomingMovies,
+        fetchMovieDetails,
+        fetchSimilarMovies,
+        fetchMovieCredits,
+        fetchPersonDetails,
+        fetchPersonMovies,
     };
 }
