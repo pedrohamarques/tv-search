@@ -58,10 +58,9 @@ export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
         isFavorite,
         similarMovies,
         isLoading,
-        movieDetails,
+        movie,
+        cast,
     } = useMovieScreen();
-
-    console.log(movieDetails);
 
     return (
         <ScrollView
@@ -70,52 +69,57 @@ export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
             {isLoading ? (
                 <Loading />
             ) : (
-                <View>
-                    <Image
-                        source={{
-                            uri: `${imageURI}${movieDetails!.poster_path}`,
-                        }}
-                        style={{
-                            width: width * 0.85,
-                            height: height * 0.55,
-                        }}
-                        className='rounded-2xl self-center mt-4'
-                    />
-                </View>
+                movie && (
+                    <>
+                        <View>
+                            <Image
+                                source={{
+                                    uri: `${imageURI}${movie.poster_path}`,
+                                }}
+                                style={{
+                                    width: width * 0.85,
+                                    height: height * 0.55,
+                                }}
+                                className='rounded-2xl self-center mt-4'
+                            />
+                        </View>
+                        <View className='space-y-3 my-10'>
+                            <Text className='text-white text-center text-3xl font-bold tracking-wider'>
+                                {movie.title}
+                            </Text>
+                            <Text className='text-neutral-400 font-semibold text-base text-center mt-2'>
+                                {movie.status} •{" "}
+                                {movie.release_date.split("-")[0]} •{" "}
+                                {movie.runtime} min
+                            </Text>
+
+                            <View className='flex-row justify-center mx-4 space-x-2 my-4'>
+                                {movie.genres.map((item, index) => (
+                                    <Text
+                                        key={index}
+                                        className='text-neutral-400 font-semibold text-base text-center'>
+                                        {item.name}{" "}
+                                        {index !== movie.genres.length - 1 &&
+                                            "• "}
+                                    </Text>
+                                ))}
+                            </View>
+
+                            <Text className='text-neutral-400 mx-4 tracking-wide mt-4'>
+                                {movie.overview}
+                            </Text>
+                        </View>
+
+                        <Cast cast={cast} handleCastPress={handleCastPress} />
+
+                        <MoviesList
+                            title='Similar Movies'
+                            data={similarMovies}
+                            hideSeeAll
+                        />
+                    </>
+                )
             )}
-
-            <View className='space-y-3 my-10'>
-                <Text className='text-white text-center text-3xl font-bold tracking-wider'>
-                    {movieDetails!.title}
-                </Text>
-                <Text className='text-neutral-400 font-semibold text-base text-center'>
-                    {`Released in ${new Date(movieDetails!.release_date).getFullYear()}`}
-                </Text>
-
-                <View className='flex-row justify-center mx-4 space-x-2 my-4'>
-                    <Text className='text-neutral-400 font-semibold text-base text-center'>
-                        Action *
-                    </Text>
-                    <Text className='text-neutral-400 font-semibold text-base text-center'>
-                        Thrill *
-                    </Text>
-                    <Text className='text-neutral-400 font-semibold text-base text-center'>
-                        Comedy *
-                    </Text>
-                </View>
-
-                <Text className='text-neutral-400 mx-4 tracking-wide'>
-                    {movieDetails!.overview}
-                </Text>
-            </View>
-
-            <Cast cast={[1, 2, 3]} handleCastPress={handleCastPress} />
-
-            <MoviesList
-                title='Similar Movies'
-                data={similarMovies}
-                hideSeeAll
-            />
         </ScrollView>
     );
 }
