@@ -1,21 +1,25 @@
 import { styles } from "@themes/index";
 import React from "react";
-import { Image, Text, View } from "react-native";
-import {
-    ScrollView,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { Text, View } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { useMoviesList } from "./movies.list.hook";
 import { MovieItem } from "./components";
+import {
+    CastMovies,
+    SimilarMovieResult,
+    TopRatedMovieResults,
+    UpcomingMovieResults,
+} from "@typings/data";
 
 type MoviesListProps = {
     title: string;
-    data: [];
+    data:
+        | UpcomingMovieResults[]
+        | TopRatedMovieResults[]
+        | SimilarMovieResult[]
+        | CastMovies[];
     hideSeeAll?: boolean;
 };
-
-const movieName = "Naruto";
 
 export function MoviesList({ title, data, hideSeeAll }: MoviesListProps) {
     const { handlePress } = useMoviesList();
@@ -38,8 +42,9 @@ export function MoviesList({ title, data, hideSeeAll }: MoviesListProps) {
                 {data.map((item, index) => (
                     <MovieItem
                         key={index}
-                        movieName={movieName}
-                        handlePress={handlePress}
+                        movieName={item.title}
+                        imagePath={item.poster_path}
+                        handlePress={() => handlePress(item)}
                     />
                 ))}
             </ScrollView>

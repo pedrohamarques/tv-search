@@ -1,3 +1,4 @@
+import { imageURI } from "@constants/url";
 import React from "react";
 import { Dimensions, Image, Text, View } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
@@ -5,16 +6,21 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 type MovieItemProps = {
     handlePress: () => void;
     movieName: string;
+    imagePath?: string;
 };
 
 const { width, height } = Dimensions.get("window");
 
-export function MovieItem({ handlePress, movieName }: MovieItemProps) {
+export function MovieItem({
+    handlePress,
+    movieName,
+    imagePath,
+}: MovieItemProps) {
     return (
         <TouchableWithoutFeedback onPress={handlePress}>
-            <View className='space-y-1 mr-4'>
+            <View className='space-y-1 mr-4 my-4'>
                 <Image
-                    source={require("../../../../assets/favicon.png")}
+                    source={{ uri: `${imageURI}${imagePath}` }}
                     className='rounded-3xl'
                     style={{ width: width * 0.33, height: height * 0.22 }}
                 />
