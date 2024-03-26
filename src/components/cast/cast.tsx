@@ -1,15 +1,13 @@
 import React from "react";
-import { Image, ScrollView, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, Text, View } from "react-native";
 import { CastItem } from "./components/cast-item";
 
-type CastProps = {
-    cast: [];
-    handleCastPress: () => void;
-};
+import { CastType } from "@typings/data";
 
-let personName = "Keanu Reeves";
-let characterName = "John Wick";
+type CastProps = {
+    cast: CastType[];
+    handleCastPress: (cast: CastType) => void;
+};
 
 export function Cast({ cast, handleCastPress }: CastProps) {
     return (
@@ -23,9 +21,10 @@ export function Cast({ cast, handleCastPress }: CastProps) {
                     cast.map((person, index) => (
                         <CastItem
                             key={index}
-                            personName={personName}
-                            characterName={characterName}
-                            handlePress={handleCastPress}
+                            personName={person.name}
+                            characterName={person.character}
+                            imagePath={person.profile_path}
+                            handlePress={() => handleCastPress(person)}
                         />
                     ))}
             </ScrollView>
