@@ -5,18 +5,27 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { useRequests } from "@services/use-request";
 
-import { TrendingMoveResults } from "@typings/data";
+import {
+    TopRatedMovieResults,
+    TrendingMoveResults,
+    UpcomingMovieResults,
+} from "@typings/data";
 import { RootStackParamsList, RouteStackList } from "@typings/route";
 
 export function useHomeScreen() {
     const [trendingMovies, setTrendingMovies] = useState<TrendingMoveResults[]>(
         [],
     );
-    const [upcomingMovies, setUpcomingMovies] = useState([]);
-    const [topRatedMovies, setTopRatedMovies] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [upcomingMovies, setUpcomingMovies] = useState<
+        UpcomingMovieResults[]
+    >([]);
+    const [topRatedMovies, setTopRatedMovies] = useState<
+        TopRatedMovieResults[]
+    >([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const { fetchTrendingMovies } = useRequests();
+    const { fetchTrendingMovies, fetchUpcomingMovies, fetchTopRatedMovies } =
+        useRequests();
 
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
@@ -34,8 +43,26 @@ export function useHomeScreen() {
         }
     };
 
+    const getUpcomingMovies = async () => {
+        const data = await fetchUpcomingMovies();
+        if (data && data.results) {
+            setUpcomingMovies(data.results);
+        }
+    };
+
+    const getTopRatedMovies = async () => {
+        const data = await fetchTopRatedMovies();
+        if (data && data.results) {
+            setTopRatedMovies(data.results);
+        }
+    };
+
     useEffect(() => {
+        setIsLoading(true);
         getTrendingMovies();
+        getUpcomingMovies();
+        getTopRatedMovies();
+        setIsLoading(false);
     }, []);
 
     return {
