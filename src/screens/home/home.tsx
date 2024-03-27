@@ -46,16 +46,27 @@ export function HomeScreen() {
             </SafeAreaView>
 
             {isLoading ? (
-                <Loading />
+                <Loading testID='screens.home.loading' />
             ) : (
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 10 }}>
-                    <TrendingMovies data={trendingMovies} />
+                    <TrendingMovies
+                        data={trendingMovies}
+                        testID='screens.home.trending-movies'
+                    />
 
-                    <MoviesList title='Upcoming' data={upcomingMovies} />
+                    <MoviesList
+                        title='Upcoming'
+                        data={upcomingMovies}
+                        testID='screens.home.movies-list.upcoming'
+                    />
 
-                    <MoviesList title='Top Rated' data={topRatedMovies} />
+                    <MoviesList
+                        title='Top Rated'
+                        data={topRatedMovies}
+                        testID='screens.home.movies-list.top-rated'
+                    />
                 </ScrollView>
             )}
         </View>

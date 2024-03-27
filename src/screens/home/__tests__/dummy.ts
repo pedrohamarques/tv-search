@@ -1,0 +1,40 @@
+export const DUMMY_MOVIES = {
+    results: [
+        {
+            adult: false,
+            backdrop_path: "/39LxWqvQCsbAe0Cm2B7dtBe3Rd4.jpg",
+            id: 359410,
+            title: "Road House",
+            original_language: "en",
+            original_title: "Road House",
+            overview:
+                "Ex-UFC fighter Dalton takes a job as a bouncer at a Florida Keys roadhouse, only to discover that this paradise is not all it seems.",
+            poster_path: "/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
+            media_type: "movie",
+            genre_ids: [28, 53],
+            popularity: 1307.152,
+            release_date: "2024-03-08",
+            video: false,
+            vote_average: 7.294,
+            vote_count: 627,
+        },
+        {
+            adult: false,
+            backdrop_path: "/39LxWqvQCsbAe0Cm2B7dtBe3Rd4.jpg",
+            id: 359410,
+            title: "Road House",
+            original_language: "en",
+            original_title: "Road House",
+            overview:
+                "Ex-UFC fighter Dalton takes a job as a bouncer at a Florida Keys roadhouse, only to discover that this paradise is not all it seems.",
+            poster_path: "/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg",
+            media_type: "movie",
+            genre_ids: [28, 53],
+            popularity: 1307.152,
+            release_date: "2024-03-08",
+            video: false,
+            vote_average: 7.294,
+            vote_count: 627,
+        },
+    ],
+};

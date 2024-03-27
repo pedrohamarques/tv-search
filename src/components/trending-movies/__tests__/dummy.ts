@@ -1,4 +1,4 @@
-export const DUMMY_MOVIE = [
+export const DUMMY_MOVIES = [
     {
         adult: false,
         backdrop_path: "/39LxWqvQCsbAe0Cm2B7dtBe3Rd4.jpg",
