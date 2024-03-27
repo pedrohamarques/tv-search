@@ -69,7 +69,7 @@ export function PersonScreen({ navigation }: PersonScreenNavigationProps) {
             className='flex-1 bg-neutral-900'
             contentContainerStyle={{ paddingBottom: 20 }}>
             {isLoading ? (
-                <Loading />
+                <Loading testID='screens.person.loading' />
             ) : (
                 <View>
                     <View
@@ -82,6 +82,7 @@ export function PersonScreen({ navigation }: PersonScreenNavigationProps) {
                         }}>
                         <View className='items-center rounded-full overflow-hidden h-72 w-72 border-2 border-neutral-400'>
                             <Image
+                                testID='screens.person.image'
                                 source={
                                     personDetails?.profile_path
                                         ? {
@@ -97,7 +98,9 @@ export function PersonScreen({ navigation }: PersonScreenNavigationProps) {
                         </View>
                     </View>
 
-                    <View className='mt-6'>
+                    <View
+                        className='mt-6'
+                        testID='screens.person.name-place-of-birth'>
                         <Text className='text-3xl text-white font-bold text-center'>
                             {personDetails?.name}
                         </Text>
@@ -148,7 +151,12 @@ export function PersonScreen({ navigation }: PersonScreenNavigationProps) {
                         </Text>
                     </View>
 
-                    <MoviesList data={personMovies} title='Movies' hideSeeAll />
+                    <MoviesList
+                        data={personMovies}
+                        title='Movies'
+                        hideSeeAll
+                        testID='screens.person.movies-list'
+                    />
                 </View>
             )}
         </ScrollView>
