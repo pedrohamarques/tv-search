@@ -19,12 +19,18 @@ type MoviesListProps = {
         | SimilarMovieResult[]
         | CastMovies[];
     hideSeeAll?: boolean;
+    testID?: string;
 };
 
-export function MoviesList({ title, data, hideSeeAll }: MoviesListProps) {
+export function MoviesList({
+    title,
+    data,
+    hideSeeAll = false,
+    testID = "components.movie-list",
+}: MoviesListProps) {
     const { handlePress } = useMoviesList();
     return (
-        <View className='mb-8 space-y-4'>
+        <View className='mb-8 space-y-4' testID={testID}>
             <View className='mx-4 flex-row justify-between items-center'>
                 <Text className='text-white text-xl'>{title}</Text>
                 {!hideSeeAll && (
@@ -45,6 +51,7 @@ export function MoviesList({ title, data, hideSeeAll }: MoviesListProps) {
                         movieName={item.title}
                         imagePath={item.poster_path}
                         handlePress={() => handlePress(item)}
+                        testID={`components.movie-list.movie-item-${index}`}
                     />
                 ))}
             </ScrollView>
