@@ -7,11 +7,16 @@ import { CastType } from "@typings/data";
 type CastProps = {
     cast: CastType[];
     handleCastPress: (cast: CastType) => void;
+    testID?: string;
 };
 
-export function Cast({ cast, handleCastPress }: CastProps) {
+export function Cast({
+    cast,
+    handleCastPress,
+    testID = "components.cast",
+}: CastProps) {
     return (
-        <View className='my-6'>
+        <View className='my-6' testID={testID}>
             <Text className=' text-white text-lg mx-4 mb-5'>Top Cast</Text>
             <ScrollView
                 horizontal
@@ -25,6 +30,7 @@ export function Cast({ cast, handleCastPress }: CastProps) {
                             characterName={person.character}
                             imagePath={person.profile_path}
                             handlePress={() => handleCastPress(person)}
+                            testID={`components.cast.cast-item-${index}`}
                         />
                     ))}
             </ScrollView>
