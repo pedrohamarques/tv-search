@@ -67,6 +67,7 @@ export function SearchScreen({ navigation }: SearchScreenNavigationProps) {
                     placeholderTextColor='lightgray'
                     className='pb-1 pl-4 text-base font-semibold text-white tracking-wider'
                     onChangeText={event => handleTextDebounce(event)}
+                    testID='screens.search.text-input'
                 />
                 <TouchableOpacity>
                     <XMarkIcon
@@ -79,7 +80,7 @@ export function SearchScreen({ navigation }: SearchScreenNavigationProps) {
 
             {isLoading ? (
                 <View className='flex-1 justify-center items-center pb-24'>
-                    <Loading />
+                    <Loading testID='screens.search.loading' />
                 </View>
             ) : searchedMovies.length > 0 ? (
                 <ScrollView
@@ -95,6 +96,7 @@ export function SearchScreen({ navigation }: SearchScreenNavigationProps) {
                                 key={index}>
                                 <View className='space-y-2 mb-4'>
                                     <Image
+                                        testID={`screens.search.image-${index}`}
                                         className='rounded-3xl'
                                         source={
                                             item.poster_path
@@ -123,6 +125,7 @@ export function SearchScreen({ navigation }: SearchScreenNavigationProps) {
                     <Image
                         source={require("@assets/search-empty.png")}
                         className='h-96 w-96'
+                        testID='screens.search.no-search-image'
                     />
                     <Text className='tracking-wider text-2xl text-white'>
                         The movies you search will appear here
