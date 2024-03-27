@@ -11,6 +11,7 @@ import {
     TrendingMovieResponse,
     UpcomingMovieResponse,
 } from "@typings/data";
+import { searchMoviesParams, searchMoviesResponse } from "@typings/search";
 
 const apiBaseUrl = "https://api.themoviedb.org/3";
 
@@ -33,7 +34,8 @@ const personDetailsEndPoint = (id: number) =>
 const personMoviesEndPoint = (id: number) =>
     `${apiBaseUrl}/person/${id}/movie_credits?api_key=${TMDB_API_KEY}`;
 
-`https://api.themoviedb.org/3/person/1234/movie_credits`;
+const searchMoviesEndPoint = () =>
+    `${apiBaseUrl}/search/movie?api_key=${TMDB_API_KEY}`;
 export function useRequests() {
     async function apiCall<T>(endpoint: string, params: null | object) {
         const options = {
@@ -82,6 +84,10 @@ export function useRequests() {
         return apiCall<CastMoviesResponse>(personMoviesEndPoint(id), null);
     }
 
+    function searchMovies(params: searchMoviesParams) {
+        return apiCall<searchMoviesResponse>(searchMoviesEndPoint(), params);
+    }
+
     return {
         fetchTopRatedMovies,
         fetchTrendingMovies,
@@ -91,5 +97,6 @@ export function useRequests() {
         fetchMovieCredits,
         fetchPersonDetails,
         fetchPersonMovies,
+        searchMovies,
     };
 }
