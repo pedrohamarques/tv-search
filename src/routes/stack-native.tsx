@@ -39,7 +39,12 @@ export function RootNavigation() {
             <Stack.Screen
                 name={RouteStackList.SEARCH}
                 component={SearchScreen}
-                options={{ headerShown: false }}
+                options={{
+                    headerTitle: "",
+                    headerBackTitleVisible: false,
+                    headerBackVisible: false,
+                    headerStyle: { backgroundColor: "rgba(23, 23, 23, 1)" },
+                }}
             />
         </Stack.Navigator>
     );
