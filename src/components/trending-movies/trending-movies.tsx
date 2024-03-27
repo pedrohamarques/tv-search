@@ -9,14 +9,18 @@ import { TrendingMoveResults } from "@typings/data";
 
 type TrendingMoviesProps = {
     data: TrendingMoveResults[];
+    testID?: string;
 };
 
 const { width, height } = Dimensions.get("window");
 
-export function TrendingMovies({ data }: TrendingMoviesProps) {
+export function TrendingMovies({
+    data,
+    testID = "components.trending-movies",
+}: TrendingMoviesProps) {
     const { handleCardPress } = useTrendingMovies();
     return (
-        <View className='mb-8'>
+        <View className='mb-8' testID={testID}>
             <Text className='text-white text-xl mx-4 mb-5'>Trending</Text>
             <Carousel
                 testID='components.trending-movies.carousel'
