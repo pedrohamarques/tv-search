@@ -19,6 +19,7 @@ export function TrendingMovies({ data }: TrendingMoviesProps) {
         <View className='mb-8'>
             <Text className='text-white text-xl mx-4 mb-5'>Trending</Text>
             <Carousel
+                testID='components.trending-movies.carousel'
                 data={data}
                 width={width}
                 height={height * 0.4}
