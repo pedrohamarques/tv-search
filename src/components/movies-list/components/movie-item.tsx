@@ -25,7 +25,7 @@ export function MovieItem({
 }: MovieItemProps) {
     return (
         <TouchableWithoutFeedback onPress={handlePress}>
-            <>
+            <View>
                 <View className='space-y-1 mr-4 my-4' testID={testID}>
                     <Image
                         source={{ uri: `${imageURI}${imagePath}` }}
@@ -39,7 +39,7 @@ export function MovieItem({
                         ? movieName.slice(0, 14) + "..."
                         : movieName}
                 </Text>
-            </>
+            </View>
         </TouchableWithoutFeedback>
     );
 }
