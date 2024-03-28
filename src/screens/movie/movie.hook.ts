@@ -11,9 +11,30 @@ import {
     MovieDetailsResponse,
     SimilarMovieResult,
 } from "@typings/data";
+import { useAppDispatch, useAppSelector } from "@stores/hooks";
+import {
+    addFavorite,
+    favoritesSelector,
+    removeFavorite,
+} from "@stores/favoritesSlice";
 
 export function useMovieScreen() {
-    const [isFavorite, setIsFavorite] = useState(true);
+    const route =
+        useRoute<RouteProp<RootStackParamsList, RouteStackList.MOVIE>>();
+
+    const movieDetails = route.params?.movieDetails
+        ? route.params.movieDetails
+        : null;
+
+    const favoriteMovies = useAppSelector(favoritesSelector);
+    const dispatch = useAppDispatch();
+
+    const favoriteMoviesIds = favoriteMovies.movies.map(item => item.id);
+    const isFavoriteMovie = movieDetails
+        ? favoriteMoviesIds.includes(movieDetails?.id)
+        : false;
+
+    const [isFavorite, setIsFavorite] = useState(isFavoriteMovie);
     const [cast, setCast] = useState<CastType[]>([]);
     const [similarMovies, setSimilarMovies] = useState<SimilarMovieResult[]>(
         [],
@@ -21,15 +42,8 @@ export function useMovieScreen() {
     const [isLoading, setIsLoading] = useState(true);
     const [movie, setMovie] = useState<MovieDetailsResponse | null>(null);
 
-    const route =
-        useRoute<RouteProp<RootStackParamsList, RouteStackList.MOVIE>>();
-
     const { fetchMovieDetails, fetchSimilarMovies, fetchMovieCredits } =
         useRequests();
-
-    const movieDetails = route.params?.movieDetails
-        ? route.params.movieDetails
-        : null;
 
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
@@ -67,7 +81,27 @@ export function useMovieScreen() {
     }, []);
 
     function handleFavoritePress() {
-        setIsFavorite(currentState => !currentState);
+        if (movie) {
+            if (!isFavorite) {
+                dispatch(
+                    addFavorite({
+                        id: movie.id,
+                        imagePath: movie.poster_path,
+                        title: movie.title,
+                    }),
+                );
+                setIsFavorite(true);
+            } else {
+                dispatch(
+                    removeFavorite({
+                        id: movie.id,
+                        imagePath: movie.poster_path,
+                        title: movie.title,
+                    }),
+                );
+                setIsFavorite(false);
+            }
+        }
     }
 
     function handleCastPress(cast: CastType) {
