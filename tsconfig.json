@@ -12,7 +12,8 @@
             "@services/*": ["./src/services/*"],
             "@constants/*": ["./src/constants/*"],
             "@assets/*": ["./src/assets/*"],
-            "@stores/*": ["./src/stores/*"]
+            "@stores/*": ["./src/stores/*"],
+            "@utils/*": ["./src/utils/*"]
         }
     }
 }
