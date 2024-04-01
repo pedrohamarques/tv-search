@@ -1,4 +1,5 @@
 import axios from "axios";
+import Toast from "react-native-toast-message";
 
 import { TMDB_API_KEY } from "@env";
 import {
@@ -49,6 +50,11 @@ export function useRequests() {
             return response.data;
         } catch (error) {
             console.log("error", error);
+            Toast.show({
+                type: "error",
+                text1: "There was some error when fetching data",
+                text2: "Please, try again in a few minutes",
+            });
         }
     }
 
