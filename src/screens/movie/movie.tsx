@@ -28,11 +28,11 @@ export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
                 <TouchableOpacity
                     style={[
                         styles.background,
-                        { padding: 1, borderRadius: 12 },
+                        { padding: 1, borderRadius: 120 },
                     ]}
                     onPress={handleBackPress}>
                     <ChevronLeftIcon
-                        size='28'
+                        size='24'
                         strokeWidth={2.5}
                         color='white'
                     />
@@ -41,7 +41,7 @@ export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
             headerRight: () => (
                 <TouchableOpacity onPress={handleFavoritePress}>
                     <HeartIcon
-                        size='35'
+                        size='24'
                         color={isFavorite ? theme.background : "white"}
                     />
                 </TouchableOpacity>

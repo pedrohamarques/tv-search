@@ -34,16 +34,29 @@ jest.mock("@services/use-request", () => ({
     }),
 }));
 
+const mockAppState = {
+    favorites: {
+        movies: [{ id: 1, imagePath: "someImage", title: "someTitle" }],
+    },
+};
+
+const mockUseSelector = jest.fn();
+const mockUseDispatch = jest.fn();
+
+jest.mock("react-redux", () => ({
+    useSelector: (callback: () => void) => mockUseSelector(callback),
+    useDispatch: () => () => mockUseDispatch(),
+}));
+
 describe("screens/movie/useMovieScreen", () => {
     beforeEach(() => {
         jest.clearAllMocks();
         mockUseRoute.mockReturnValue({
             params: {
-                movieDetails: {
-                    id: 1,
-                },
+                movieId: 1,
             },
         });
+        mockUseSelector.mockImplementation(callback => callback(mockAppState));
     });
 
     it("goes to previous screen when handleBackPress is called", () => {
@@ -133,13 +146,49 @@ describe("screens/movie/useMovieScreen", () => {
         expect(result.current.cast).toEqual([]);
     });
 
-    it("updates isFavorites value when handleFavoritePress is called", () => {
+    it("turns isFavorite value to false when handleFavoritePress is called and the movie is already on favorites", async () => {
+        mockFetchMovieDetails.mockResolvedValueOnce(DUMMY_MOVIE_DETAILS);
+
         const { result } = renderHook(() => useMovieScreen());
 
         expect(result.current.isFavorite).toBe(true);
 
+        await waitFor(() =>
+            expect(mockFetchMovieCredits).toHaveBeenCalledTimes(1),
+        );
+
         act(() => result.current.handleFavoritePress());
 
+        expect(mockUseDispatch).toHaveBeenCalledTimes(1);
+
         waitFor(() => expect(result.current.isFavorite).toBe(false));
+    });
+
+    it("turns isFavorite value to true when handleFavoritePress is called and the movie is not on favorites", async () => {
+        mockFetchMovieDetails.mockResolvedValueOnce(DUMMY_MOVIE_DETAILS);
+
+        const mockNewAppState = {
+            favorites: {
+                movies: [
+                    { id: 2, title: "Some title", imagePath: "someImage" },
+                ],
+            },
+        };
+        mockUseSelector.mockImplementationOnce(callback =>
+            callback(mockNewAppState),
+        );
+        const { result } = renderHook(() => useMovieScreen());
+
+        expect(result.current.isFavorite).toBe(false);
+
+        await waitFor(() =>
+            expect(mockFetchMovieCredits).toHaveBeenCalledTimes(1),
+        );
+
+        act(() => result.current.handleFavoritePress());
+
+        expect(mockUseDispatch).toHaveBeenCalledTimes(1);
+
+        waitFor(() => expect(result.current.isFavorite).toBe(true));
     });
 });

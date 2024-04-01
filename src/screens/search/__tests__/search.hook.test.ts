@@ -44,7 +44,7 @@ describe("screens/search/useSearchScreen", () => {
 
         expect(mockPush).toHaveBeenCalledTimes(1);
         expect(mockPush).toHaveBeenCalledWith(RouteStackList.MOVIE, {
-            movieDetails: DUMMY_MOVIE,
+            movieId: DUMMY_MOVIE.id,
         });
     });
 

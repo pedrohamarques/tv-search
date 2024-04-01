@@ -3,6 +3,13 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { useRequests } from "@services/use-request";
 
+import { useAppDispatch, useAppSelector } from "@stores/hooks";
+import {
+    addFavorite,
+    favoritesSelector,
+    removeFavorite,
+} from "@stores/favoritesSlice";
+
 import { RootStackParamsList, RouteStackList } from "@typings/route";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -11,28 +18,18 @@ import {
     MovieDetailsResponse,
     SimilarMovieResult,
 } from "@typings/data";
-import { useAppDispatch, useAppSelector } from "@stores/hooks";
-import {
-    addFavorite,
-    favoritesSelector,
-    removeFavorite,
-} from "@stores/favoritesSlice";
 
 export function useMovieScreen() {
     const route =
         useRoute<RouteProp<RootStackParamsList, RouteStackList.MOVIE>>();
 
-    const movieDetails = route.params?.movieDetails
-        ? route.params.movieDetails
-        : null;
+    const movieId = route.params.movieId;
 
     const favoriteMovies = useAppSelector(favoritesSelector);
     const dispatch = useAppDispatch();
 
     const favoriteMoviesIds = favoriteMovies.movies.map(item => item.id);
-    const isFavoriteMovie = movieDetails
-        ? favoriteMoviesIds.includes(movieDetails?.id)
-        : false;
+    const isFavoriteMovie = favoriteMoviesIds.includes(movieId);
 
     const [isFavorite, setIsFavorite] = useState(isFavoriteMovie);
     const [cast, setCast] = useState<CastType[]>([]);
@@ -53,21 +50,21 @@ export function useMovieScreen() {
     }
 
     const getMovieCredits = async () => {
-        const data = await fetchMovieCredits(movieDetails!.id);
+        const data = await fetchMovieCredits(movieId);
         if (data && data.cast) {
             setCast(data.cast);
         }
     };
 
     const getMovieDetails = async () => {
-        const data = await fetchMovieDetails(movieDetails!.id);
+        const data = await fetchMovieDetails(movieId);
         if (data) {
             setMovie(data);
         }
     };
 
     const getSimilarMovies = async () => {
-        const data = await fetchSimilarMovies(movieDetails!.id);
+        const data = await fetchSimilarMovies(movieId);
         if (data && data.results) {
             setSimilarMovies(data.results);
         }
