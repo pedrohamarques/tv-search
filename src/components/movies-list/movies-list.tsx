@@ -1,15 +1,21 @@
-import { styles } from "@themes/index";
 import React from "react";
 import { Text, View } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { useMoviesList } from "./movies.list.hook";
+
+import { Loading } from "@components/loading";
+
+import { styles } from "@themes/index";
+
 import { MovieItem } from "./components";
+
 import {
     CastMovies,
     SimilarMovieResult,
     TopRatedMovieResults,
     UpcomingMovieResults,
 } from "@typings/data";
+
+import { useMoviesList } from "./movies.list.hook";
 
 type MoviesListProps = {
     title: string;
@@ -20,10 +26,12 @@ type MoviesListProps = {
         | CastMovies[];
     hideSeeAll?: boolean;
     testID?: string;
+    isLoading?: boolean;
 };
 
 export function MoviesList({
     title,
+    isLoading,
     data,
     hideSeeAll = false,
     testID = "components.movie-list",
@@ -41,20 +49,24 @@ export function MoviesList({
                     </TouchableOpacity>
                 )}
             </View>
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 16 }}>
-                {data.map((item, index) => (
-                    <MovieItem
-                        key={index}
-                        movieName={item.title}
-                        imagePath={item.poster_path}
-                        handlePress={() => handlePress(item)}
-                        testID={`components.movie-list.movie-item-${index}`}
-                    />
-                ))}
-            </ScrollView>
+            {isLoading ? (
+                <Loading size={140} testID='components.movies-list.loading' />
+            ) : (
+                <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ paddingHorizontal: 16 }}>
+                    {data.map((item, index) => (
+                        <MovieItem
+                            key={index}
+                            movieName={item.title}
+                            imagePath={item.poster_path}
+                            handlePress={() => handlePress(item)}
+                            testID={`components.movie-list.movie-item-${index}`}
+                        />
+                    ))}
+                </ScrollView>
+            )}
         </View>
     );
 }

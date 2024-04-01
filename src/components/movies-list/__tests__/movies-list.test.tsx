@@ -7,6 +7,7 @@ import { DUMMY_MOVIES } from "./dummy";
 const mockValues = {
     title: "Upcoming",
     data: DUMMY_MOVIES,
+    isLoading: false,
 };
 
 jest.mock("@react-navigation/native", () => ({
@@ -29,6 +30,10 @@ describe("components/movies-list/<MoviesList />", () => {
         expect(
             screen.getByTestId("components.movie-list.movie-item-1"),
         ).toBeTruthy();
+
+        expect(
+            screen.queryByTestId("components.movies-list.loading"),
+        ).toBeNull();
     });
 
     it("renders component properly without see all button", () => {
@@ -42,6 +47,28 @@ describe("components/movies-list/<MoviesList />", () => {
         ).toBeTruthy();
         expect(
             screen.getByTestId("components.movie-list.movie-item-1"),
+        ).toBeTruthy();
+
+        expect(
+            screen.queryByTestId("components.movies-list.loading"),
+        ).toBeNull();
+    });
+
+    it("renders component properly when isLoading is true", () => {
+        render(<MoviesList {...mockValues} isLoading />);
+
+        expect(screen.getByText("Upcoming")).toBeTruthy();
+
+        expect(screen.getByText("See All")).toBeTruthy();
+        expect(
+            screen.queryByTestId("components.movie-list.movie-item-0"),
+        ).toBeNull();
+        expect(
+            screen.queryByTestId("components.movie-list.movie-item-1"),
+        ).toBeNull();
+
+        expect(
+            screen.getByTestId("components.movies-list.loading"),
         ).toBeTruthy();
     });
 });
