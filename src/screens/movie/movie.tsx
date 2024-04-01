@@ -6,7 +6,8 @@ import { HeartIcon } from "react-native-heroicons/solid";
 
 import { styles, theme } from "@themes/index";
 
-import { Cast, Loading, MoviesList } from "@components/index";
+import { Cast, MoviesList } from "@components/index";
+import { Loading } from "@components/loading";
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamsList } from "@typings/route";

@@ -12,7 +12,8 @@ import { HeartIcon } from "react-native-heroicons/solid";
 
 import { styles, theme } from "@themes/index";
 
-import { Loading, MoviesList } from "@components/index";
+import { MoviesList } from "@components/index";
+import { Loading } from "@components/loading";
 
 import { usePersonScreen } from "./person.hook";
 
