@@ -21,7 +21,7 @@ export function Cast({
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 15 }}>
+                contentContainerStyle={{ paddingHorizontal: 6 }}>
                 {cast &&
                     cast.map((person, index) => (
                         <CastItem
