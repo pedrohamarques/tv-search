@@ -1,7 +1,7 @@
 import React from "react";
 import { RenderOptions, render } from "@testing-library/react-native";
 
-import { AppStore, RootState, setupStore } from "@stores/store";
+import { AppStore, RootState, store } from "@stores/store";
 import { Provider } from "react-redux";
 
 type ExtendedRenderOptions = Omit<RenderOptions, "queries"> & {
@@ -13,11 +13,7 @@ export function renderWithProviders(
     ui: React.ReactElement,
     extendedRenderOptions: ExtendedRenderOptions = {},
 ) {
-    const {
-        preloadedState = {},
-        store = setupStore(preloadedState),
-        ...renderOptions
-    } = extendedRenderOptions;
+    const { ...renderOptions } = extendedRenderOptions;
 
     const Wrapper = ({ children }: React.PropsWithChildren) => {
         return <Provider store={store}>{children}</Provider>;
