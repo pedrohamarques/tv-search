@@ -1,11 +1,11 @@
 export type TrendingMovieResponse = {
     page: number;
-    results: TrendingMoveResults[];
+    results: TrendingMovieResults[];
     total_pages: number;
     total_results: number;
 };
 
-export type TrendingMoveResults = {
+export type TrendingMovieResults = {
     adult: boolean;
     backdrop_path: string;
     id: number;
