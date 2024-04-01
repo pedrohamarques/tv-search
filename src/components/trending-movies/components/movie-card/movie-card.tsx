@@ -3,10 +3,10 @@ import { Image, TouchableWithoutFeedback, Dimensions } from "react-native";
 
 import { imageURI } from "@constants/url";
 
-import { TrendingMoveResults } from "@typings/data";
+import type { TrendingMovieResults } from "@typings/data";
 
 type MovieCardProps = {
-    item: TrendingMoveResults;
+    item: TrendingMovieResults;
     handlePress: () => void;
     testID?: string;
 };
