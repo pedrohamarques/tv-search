@@ -43,7 +43,7 @@ export function SearchScreen({ navigation }: SearchScreenNavigationProps) {
                     ]}
                     className='rounded-full p-3 m-1 bg-neutral-500'>
                     <ChevronLeftIcon
-                        size='25'
+                        size='24'
                         color='white'
                         strokeWidth='2.5'
                     />
