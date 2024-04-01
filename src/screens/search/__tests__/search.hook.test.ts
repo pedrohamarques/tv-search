@@ -34,7 +34,7 @@ describe("screens/search/useSearchScreen", () => {
         act(() => result.current.handleClosePress());
 
         expect(mockNavigate).toHaveBeenCalledTimes(1);
-        expect(mockNavigate).toHaveBeenCalledWith(RouteStackList.HOME);
+        expect(mockNavigate).toHaveBeenCalledWith(RouteStackList.DRAWER);
     });
 
     it("navigates to movie screen when handleItemPress is called", () => {

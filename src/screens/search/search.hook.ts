@@ -21,11 +21,11 @@ export function useSearchScreen() {
         useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
 
     function handleClosePress() {
-        navigation.navigate(RouteStackList.HOME);
+        navigation.navigate(RouteStackList.DRAWER);
     }
 
     function handleItemPress(movie: TopRatedMovieResults) {
-        navigation.push(RouteStackList.MOVIE, { movieDetails: movie });
+        navigation.push(RouteStackList.MOVIE, { movieId: movie.id });
     }
 
     async function handleSearch(value: string) {
