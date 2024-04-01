@@ -34,6 +34,12 @@ jest.mock("@services/use-request", () => ({
     }),
 }));
 
+const mockToastShow = jest.fn();
+
+jest.mock("react-native-toast-message", () => ({
+    show: () => mockToastShow(),
+}));
+
 const mockAppState = {
     favorites: {
         movies: [{ id: 1, imagePath: "someImage", title: "someTitle" }],
@@ -161,6 +167,8 @@ describe("screens/movie/useMovieScreen", () => {
 
         expect(mockUseDispatch).toHaveBeenCalledTimes(1);
 
+        expect(mockToastShow).toHaveBeenCalledTimes(1);
+
         waitFor(() => expect(result.current.isFavorite).toBe(false));
     });
 
@@ -188,6 +196,8 @@ describe("screens/movie/useMovieScreen", () => {
         act(() => result.current.handleFavoritePress());
 
         expect(mockUseDispatch).toHaveBeenCalledTimes(1);
+
+        expect(mockToastShow).toHaveBeenCalledTimes(1);
 
         waitFor(() => expect(result.current.isFavorite).toBe(true));
     });

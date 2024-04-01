@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-
+import {
+    CompositeNavigationProp,
+    RouteProp,
+    useNavigation,
+    useRoute,
+} from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 import { useRequests } from "@services/use-request";
 
 import { useAppDispatch, useAppSelector } from "@stores/hooks";
@@ -10,7 +15,12 @@ import {
     removeFavorite,
 } from "@stores/favoritesSlice";
 
-import { RootStackParamsList, RouteStackList } from "@typings/route";
+import {
+    RootDrawerParamsList,
+    RootStackParamsList,
+    RouteDrawerList,
+    RouteStackList,
+} from "@typings/route";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import {
@@ -18,6 +28,12 @@ import {
     MovieDetailsResponse,
     SimilarMovieResult,
 } from "@typings/data";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+
+type ManageMovieScreenNavigationProps = CompositeNavigationProp<
+    DrawerNavigationProp<RootDrawerParamsList, RouteDrawerList.FAVORITE_MOVIES>,
+    NativeStackNavigationProp<RootStackParamsList>
+>;
 
 export function useMovieScreen() {
     const route =
@@ -42,11 +58,15 @@ export function useMovieScreen() {
     const { fetchMovieDetails, fetchSimilarMovies, fetchMovieCredits } =
         useRequests();
 
-    const navigation =
-        useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
+    const navigation = useNavigation<ManageMovieScreenNavigationProps>();
 
     function handleBackPress() {
         navigation.goBack();
+    }
+
+    function handleToastPress() {
+        navigation.navigate(RouteDrawerList.FAVORITE_MOVIES);
+        Toast.hide();
     }
 
     const getMovieCredits = async () => {
@@ -87,7 +107,13 @@ export function useMovieScreen() {
                         title: movie.title,
                     }),
                 );
-                setIsFavorite(true);
+                Toast.show({
+                    type: "success",
+                    text1: "Movie added to favorites",
+                    text2: "Press here to see all",
+                    onPress: handleToastPress,
+                }),
+                    setIsFavorite(true);
             } else {
                 dispatch(
                     removeFavorite({
@@ -96,7 +122,13 @@ export function useMovieScreen() {
                         title: movie.title,
                     }),
                 );
-                setIsFavorite(false);
+                Toast.show({
+                    type: "success",
+                    text1: "Movie removed from favorites",
+                    text2: "Press here to see all",
+                    onPress: handleToastPress,
+                }),
+                    setIsFavorite(false);
             }
         }
     }
