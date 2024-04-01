@@ -1,21 +1,49 @@
-import React from "react";
-import { StatusBar } from "expo-status-bar";
+import React, { useLayoutEffect } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {
-    Bars3CenterLeftIcon,
-    MagnifyingGlassIcon,
-} from "react-native-heroicons/outline";
+import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 
 import { styles } from "@themes/index";
 
 import { Loading, MoviesList, TrendingMovies } from "@components/index";
 
 import { useHomeScreen } from "./home.hook";
+import { CompositeNavigationProp } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { RootDrawerParamsList, RootStackParamsList } from "@typings/route";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-export function HomeScreen() {
+type HomeScreenNavigationProps = {
+    navigation: Pick<
+        CompositeNavigationProp<
+            DrawerNavigationProp<RootDrawerParamsList>,
+            NativeStackNavigationProp<RootStackParamsList>
+        >,
+        "setOptions"
+    >;
+};
+
+export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <View className='pr-4'>
+                    <TouchableOpacity onPress={handleSearchPress}>
+                        <MagnifyingGlassIcon
+                            size='24'
+                            strokeWidth={2}
+                            color='white'
+                        />
+                    </TouchableOpacity>
+                </View>
+            ),
+            headerTitle: () => (
+                <Text className='text-white text-3xl font-bold'>
+                    <Text style={styles.text}>M</Text>ovies
+                </Text>
+            ),
+        });
+    }, [navigation]);
     const {
-        isIos,
         isLoading,
         trendingMovies,
         upcomingMovies,
@@ -24,33 +52,13 @@ export function HomeScreen() {
     } = useHomeScreen();
     return (
         <View className='flex-1 bg-neutral-800'>
-            <SafeAreaView className={isIos ? "-mb-2" : "mb-3"}>
-                <StatusBar style='light' />
-                <View className='flex-row justify-between items-center mx-4'>
-                    <Bars3CenterLeftIcon
-                        size='30'
-                        strokeWidth={2}
-                        color='white'
-                    />
-                    <Text className='text-white text-3xl font-bold'>
-                        <Text style={styles.text}>M</Text>ovies
-                    </Text>
-                    <TouchableOpacity onPress={handleSearchPress}>
-                        <MagnifyingGlassIcon
-                            size='30'
-                            strokeWidth={2}
-                            color='white'
-                        />
-                    </TouchableOpacity>
-                </View>
-            </SafeAreaView>
-
             {isLoading ? (
                 <Loading testID='screens.home.loading' />
             ) : (
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 10 }}>
+                    contentContainerStyle={{ paddingBottom: 10 }}
+                    className='pt-4'>
                     <TrendingMovies
                         data={trendingMovies}
                         testID='screens.home.trending-movies'

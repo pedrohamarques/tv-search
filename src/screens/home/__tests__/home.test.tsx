@@ -1,7 +1,12 @@
-import { render, screen } from "@testing-library/react-native";
 import React from "react";
+import { render, screen } from "@testing-library/react-native";
+
 import { HomeScreen } from "../home";
 import { DUMMY_MOVIES } from "./dummy";
+
+const mockNavigation = {
+    setOptions: jest.fn(),
+};
 
 jest.mock("@react-navigation/native", () => ({
     useNavigation: jest.fn(),
@@ -13,7 +18,6 @@ jest.mock("../home.hook", () => ({
 }));
 
 const mockHookValues = {
-    isIos: true,
     isLoading: true,
     trendingMovies: DUMMY_MOVIES.results,
     upcomingMovies: DUMMY_MOVIES.results,
@@ -28,9 +32,7 @@ describe("screens/home/<Home />", () => {
     });
 
     it("renders screen properly when is loading", () => {
-        render(<HomeScreen />);
-
-        expect(screen.getByText("M")).toBeTruthy();
+        render(<HomeScreen navigation={mockNavigation} />);
 
         expect(screen.getByTestId("screens.home.loading")).toBeTruthy();
 
@@ -48,9 +50,7 @@ describe("screens/home/<Home />", () => {
             ...mockHookValues,
             isLoading: false,
         });
-        render(<HomeScreen />);
-
-        expect(screen.getByText("M")).toBeTruthy();
+        render(<HomeScreen navigation={mockNavigation} />);
 
         expect(screen.queryByTestId("screens.home.loading")).toBeNull();
 

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Platform } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import {
+    CompositeNavigationProp,
+    useNavigation,
+} from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { useRequests } from "@services/use-request";
@@ -10,7 +12,18 @@ import {
     TrendingMoveResults,
     UpcomingMovieResults,
 } from "@typings/data";
-import { RootStackParamsList, RouteStackList } from "@typings/route";
+import {
+    RootDrawerParamsList,
+    RootStackParamsList,
+    RouteDrawerList,
+    RouteStackList,
+} from "@typings/route";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+
+type ManageHomeScreenNavigationProps = CompositeNavigationProp<
+    DrawerNavigationProp<RootDrawerParamsList, RouteDrawerList.FAVORITE_MOVIES>,
+    NativeStackNavigationProp<RootStackParamsList>
+>;
 
 export function useHomeScreen() {
     const [trendingMovies, setTrendingMovies] = useState<TrendingMoveResults[]>(
@@ -27,10 +40,7 @@ export function useHomeScreen() {
     const { fetchTrendingMovies, fetchUpcomingMovies, fetchTopRatedMovies } =
         useRequests();
 
-    const navigation =
-        useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
-
-    const isIos = Platform.OS === "ios";
+    const navigation = useNavigation<ManageHomeScreenNavigationProps>();
 
     function handleSearchPress() {
         navigation.navigate(RouteStackList.SEARCH);
@@ -66,7 +76,6 @@ export function useHomeScreen() {
     }, []);
 
     return {
-        isIos,
         trendingMovies,
         upcomingMovies,
         topRatedMovies,

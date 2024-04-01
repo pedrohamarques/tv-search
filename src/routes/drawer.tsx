@@ -22,8 +22,9 @@ export function DrawerContainer() {
                 name={RouteDrawerList.HOME}
                 component={HomeScreen}
                 options={{
-                    headerShown: false,
                     drawerLabel: "Home",
+                    headerTintColor: "white",
+                    headerShadowVisible: false,
                     drawerIcon: ({ color, focused }) => (
                         <HomeIcon
                             size={20}
