@@ -9,7 +9,7 @@ export function useMoviesList() {
         useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
 
     function handlePress(movie: UpcomingMovieResults) {
-        navigation.push(RouteStackList.MOVIE, { movieDetails: movie });
+        navigation.push(RouteStackList.MOVIE, { movieId: movie.id });
     }
 
     return {

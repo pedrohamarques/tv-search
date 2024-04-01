@@ -24,7 +24,7 @@ describe("components/movies-list/useMoviesList", () => {
 
         expect(mockPush).toHaveBeenCalledTimes(1);
         expect(mockPush).toHaveBeenCalledWith(RouteStackList.MOVIE, {
-            movieDetails: DUMMY_MOVIES[0],
+            movieId: DUMMY_MOVIES[0].id,
         });
     });
 });

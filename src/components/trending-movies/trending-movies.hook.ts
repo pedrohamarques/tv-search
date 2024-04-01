@@ -8,7 +8,7 @@ export function useTrendingMovies() {
         useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
 
     function handleCardPress(movie: TrendingMoveResults) {
-        navigation.navigate(RouteStackList.MOVIE, { movieDetails: movie });
+        navigation.navigate(RouteStackList.MOVIE, { movieId: movie.id });
     }
 
     return {

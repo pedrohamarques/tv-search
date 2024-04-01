@@ -24,7 +24,7 @@ describe("components/trending-movies/useTrendingMovies", () => {
 
         expect(mockNavigate).toHaveBeenCalledTimes(1);
         expect(mockNavigate).toHaveBeenCalledWith(RouteStackList.MOVIE, {
-            movieDetails: DUMMY_MOVIES[0],
+            movieId: DUMMY_MOVIES[0].id,
         });
     });
 });
