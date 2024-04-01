@@ -11,16 +11,18 @@ import {
     TextInput,
     TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
+import { ChevronLeftIcon, XMarkIcon } from "react-native-heroicons/outline";
 
-import { Loading } from "@components/index";
+import { Loading } from "@components/loading";
+
 import { imageURI } from "@constants/url";
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamsList } from "@typings/route";
+import { styles } from "@themes/index";
 
 import { useSearchScreen } from "./search.hook";
-import { ChevronLeftIcon, XMarkIcon } from "react-native-heroicons/outline";
-import { styles } from "@themes/index";
+
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { RootStackParamsList } from "@typings/route";
 
 const { width, height } = Dimensions.get("window");
 
