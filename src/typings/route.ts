@@ -1,17 +1,9 @@
-import {
-    CastType,
-    TopRatedMovieResults,
-    TrendingMoveResults,
-    UpcomingMovieResults,
-} from "./data";
+import { CastType } from "./data";
 
 export type RootStackParamsList = {
-    [RouteStackList.HOME]: undefined;
+    [RouteStackList.DRAWER]: undefined;
     [RouteStackList.MOVIE]: {
-        movieDetails:
-            | TrendingMoveResults
-            | UpcomingMovieResults
-            | TopRatedMovieResults;
+        movieId: number;
     };
     [RouteStackList.PERSON]: {
         cast: CastType;
@@ -20,8 +12,18 @@ export type RootStackParamsList = {
 };
 
 export enum RouteStackList {
-    HOME = "HomeScreen",
+    DRAWER = "DrawerContainer",
     MOVIE = "MovieScreen",
     PERSON = "PersonScreen",
     SEARCH = "SearchScreen",
+}
+
+export type RootDrawerParamsList = {
+    [RouteDrawerList.HOME]: undefined;
+    [RouteDrawerList.FAVORITE_MOVIES]: undefined;
+};
+
+export enum RouteDrawerList {
+    HOME = "HomeScreen",
+    FAVORITE_MOVIES = "FavoriteMoviesScreen",
 }

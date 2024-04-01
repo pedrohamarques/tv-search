@@ -1,12 +1,12 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import HomeScreen from "@screens/home";
 import MovieScreen from "@screens/movie";
 import PersonScreen from "@screens/person";
 import SearchScreen from "@screens/search";
 
 import { RouteStackList, type RootStackParamsList } from "@typings/route";
+import { DrawerContainer } from "./drawer";
 
 const Stack = createNativeStackNavigator<RootStackParamsList>();
 
@@ -14,8 +14,8 @@ export function RootNavigation() {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name={RouteStackList.HOME}
-                component={HomeScreen}
+                name={RouteStackList.DRAWER}
+                component={DrawerContainer}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
