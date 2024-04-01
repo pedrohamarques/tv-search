@@ -4,13 +4,13 @@ import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 
 import { styles } from "@themes/index";
 
-import { Loading, MoviesList, TrendingMovies } from "@components/index";
+import { MoviesList, TrendingMovies } from "@components/index";
 
 import { useHomeScreen } from "./home.hook";
-import { CompositeNavigationProp } from "@react-navigation/native";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { RootDrawerParamsList, RootStackParamsList } from "@typings/route";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { CompositeNavigationProp } from "@react-navigation/native";
+import type { DrawerNavigationProp } from "@react-navigation/drawer";
+import type { RootDrawerParamsList, RootStackParamsList } from "@typings/route";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type HomeScreenNavigationProps = {
     navigation: Pick<
@@ -43,40 +43,30 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
             ),
         });
     }, [navigation]);
-    const {
-        isLoading,
-        trendingMovies,
-        upcomingMovies,
-        topRatedMovies,
-        handleSearchPress,
-    } = useHomeScreen();
+    const { movies, handleSearchPress } = useHomeScreen();
     return (
-        <View className='flex-1 bg-neutral-800'>
-            {isLoading ? (
-                <Loading testID='screens.home.loading' />
-            ) : (
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 10 }}
-                    className='pt-4'>
-                    <TrendingMovies
-                        data={trendingMovies}
-                        testID='screens.home.trending-movies'
-                    />
+        <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 10 }}
+            className='pt-4 bg-neutral-800'>
+            <TrendingMovies
+                data={movies.trending.movies}
+                testID='screens.home.trending-movies'
+                isLoading={movies.trending.isLoading}
+            />
+            <MoviesList
+                title='Upcoming'
+                data={movies.upcoming.movies}
+                testID='screens.home.movies-list.upcoming'
+                isLoading={movies.upcoming.isLoading}
+            />
 
-                    <MoviesList
-                        title='Upcoming'
-                        data={upcomingMovies}
-                        testID='screens.home.movies-list.upcoming'
-                    />
-
-                    <MoviesList
-                        title='Top Rated'
-                        data={topRatedMovies}
-                        testID='screens.home.movies-list.top-rated'
-                    />
-                </ScrollView>
-            )}
-        </View>
+            <MoviesList
+                title='Top Rated'
+                data={movies.topRated.movies}
+                testID='screens.home.movies-list.top-rated'
+                isLoading={movies.topRated.isLoading}
+            />
+        </ScrollView>
     );
 }

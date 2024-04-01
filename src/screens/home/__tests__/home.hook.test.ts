@@ -47,7 +47,23 @@ describe("screens/home/useHomeScreen", () => {
             expect(mockFetchTrendingMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.trendingMovies).toEqual(DUMMY_MOVIES.results);
+        expect(result.current.movies).toEqual({
+            trending: {
+                movies: DUMMY_MOVIES.results,
+                isLoading: false,
+                error: "",
+            },
+            upcoming: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            topRated: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+        });
     });
 
     it("stores nothing when there is no trending movies to be requested", async () => {
@@ -58,7 +74,23 @@ describe("screens/home/useHomeScreen", () => {
             expect(mockFetchTrendingMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.trendingMovies).toEqual([]);
+        expect(result.current.movies).toEqual({
+            trending: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            upcoming: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            topRated: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+        });
     });
 
     it("requests upcoming movies and store them", async () => {
@@ -69,7 +101,23 @@ describe("screens/home/useHomeScreen", () => {
             expect(mockFetchUpcomingMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.upcomingMovies).toEqual(DUMMY_MOVIES.results);
+        expect(result.current.movies).toEqual({
+            upcoming: {
+                movies: DUMMY_MOVIES.results,
+                isLoading: false,
+                error: "",
+            },
+            trending: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            topRated: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+        });
     });
 
     it("stores nothing when there is no upcoming movies to be requested", async () => {
@@ -80,7 +128,23 @@ describe("screens/home/useHomeScreen", () => {
             expect(mockFetchUpcomingMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.upcomingMovies).toEqual([]);
+        expect(result.current.movies).toEqual({
+            trending: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            upcoming: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            topRated: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+        });
     });
 
     it("requests top rated movies and store them", async () => {
@@ -91,7 +155,23 @@ describe("screens/home/useHomeScreen", () => {
             expect(mockFetchTopRatedMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.topRatedMovies).toEqual(DUMMY_MOVIES.results);
+        expect(result.current.movies).toEqual({
+            topRated: {
+                movies: DUMMY_MOVIES.results,
+                isLoading: false,
+                error: "",
+            },
+            trending: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            upcoming: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+        });
     });
     it("stores nothing when there is no top rated movies to be requested", async () => {
         mockFetchTopRatedMovies.mockResolvedValueOnce({});
@@ -101,6 +181,22 @@ describe("screens/home/useHomeScreen", () => {
             expect(mockFetchTopRatedMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.topRatedMovies).toEqual([]);
+        expect(result.current.movies).toEqual({
+            trending: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            upcoming: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+            topRated: {
+                movies: [],
+                isLoading: false,
+                error: "There was some error when fetching data",
+            },
+        });
     });
 });

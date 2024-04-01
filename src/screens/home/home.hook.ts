@@ -1,42 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import {
-    CompositeNavigationProp,
+    type CompositeNavigationProp,
     useNavigation,
 } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { useRequests } from "@services/use-request";
 
 import {
-    TopRatedMovieResults,
-    TrendingMoveResults,
-    UpcomingMovieResults,
-} from "@typings/data";
-import {
-    RootDrawerParamsList,
-    RootStackParamsList,
+    type RootDrawerParamsList,
+    type RootStackParamsList,
     RouteDrawerList,
     RouteStackList,
 } from "@typings/route";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
+import type { DrawerNavigationProp } from "@react-navigation/drawer";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import { FetchActionKind, FetchState, fetchMoviesReducer } from "./reducer";
 
 type ManageHomeScreenNavigationProps = CompositeNavigationProp<
     DrawerNavigationProp<RootDrawerParamsList, RouteDrawerList.FAVORITE_MOVIES>,
     NativeStackNavigationProp<RootStackParamsList>
 >;
 
-export function useHomeScreen() {
-    const [trendingMovies, setTrendingMovies] = useState<TrendingMoveResults[]>(
-        [],
-    );
-    const [upcomingMovies, setUpcomingMovies] = useState<
-        UpcomingMovieResults[]
-    >([]);
-    const [topRatedMovies, setTopRatedMovies] = useState<
-        TopRatedMovieResults[]
-    >([]);
-    const [isLoading, setIsLoading] = useState(true);
+const moviesState: FetchState = {
+    trending: {
+        movies: [],
+        error: "",
+        isLoading: false,
+    },
+    upcoming: {
+        movies: [],
+        error: "",
+        isLoading: false,
+    },
+    topRated: {
+        movies: [],
+        error: "",
+        isLoading: false,
+    },
+};
 
+export function useHomeScreen() {
     const { fetchTrendingMovies, fetchUpcomingMovies, fetchTopRatedMovies } =
         useRequests();
 
@@ -46,40 +50,55 @@ export function useHomeScreen() {
         navigation.navigate(RouteStackList.SEARCH);
     }
 
+    const [state, dispatch] = useReducer(fetchMoviesReducer, moviesState);
+
     const getTrendingMovies = async () => {
+        dispatch({ type: FetchActionKind.REQUEST_TRENDING });
         const data = await fetchTrendingMovies();
         if (data && data.results) {
-            setTrendingMovies(data.results);
+            dispatch({
+                type: FetchActionKind.RESOLVE_TRENDING,
+                payload: data.results,
+            });
+        } else {
+            dispatch({ type: FetchActionKind.ERROR_TRENDING });
         }
     };
 
     const getUpcomingMovies = async () => {
+        dispatch({ type: FetchActionKind.REQUEST_UPCOMING });
         const data = await fetchUpcomingMovies();
         if (data && data.results) {
-            setUpcomingMovies(data.results);
+            dispatch({
+                type: FetchActionKind.RESOLVE_UPCOMING,
+                payload: data.results,
+            });
+        } else {
+            dispatch({ type: FetchActionKind.ERROR_UPCOMING });
         }
     };
 
     const getTopRatedMovies = async () => {
+        dispatch({ type: FetchActionKind.REQUEST_TOP_RATED });
         const data = await fetchTopRatedMovies();
         if (data && data.results) {
-            setTopRatedMovies(data.results);
+            dispatch({
+                type: FetchActionKind.RESOLVE_TOP_RATED,
+                payload: data.results,
+            });
+        } else {
+            dispatch({ type: FetchActionKind.ERROR_TOP_RATED });
         }
     };
 
     useEffect(() => {
-        setIsLoading(true);
         getTrendingMovies();
         getUpcomingMovies();
         getTopRatedMovies();
-        setIsLoading(false);
     }, []);
 
     return {
-        trendingMovies,
-        upcomingMovies,
-        topRatedMovies,
-        isLoading,
         handleSearchPress,
+        movies: state,
     };
 }

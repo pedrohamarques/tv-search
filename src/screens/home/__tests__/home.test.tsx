@@ -18,10 +18,20 @@ jest.mock("../home.hook", () => ({
 }));
 
 const mockHookValues = {
-    isLoading: true,
-    trendingMovies: DUMMY_MOVIES.results,
-    upcomingMovies: DUMMY_MOVIES.results,
-    topRatedMovies: DUMMY_MOVIES.results,
+    movies: {
+        trending: {
+            movies: DUMMY_MOVIES.results,
+            isLoading: false,
+        },
+        upcoming: {
+            movies: DUMMY_MOVIES.results,
+            isLoading: false,
+        },
+        topRated: {
+            movies: DUMMY_MOVIES.results,
+            isLoading: false,
+        },
+    },
     handleSearchPress: jest.fn(),
 };
 
@@ -31,28 +41,8 @@ describe("screens/home/<Home />", () => {
         mockUseHomeScreen.mockReturnValue(mockHookValues);
     });
 
-    it("renders screen properly when is loading", () => {
+    it("renders screen properly", () => {
         render(<HomeScreen navigation={mockNavigation} />);
-
-        expect(screen.getByTestId("screens.home.loading")).toBeTruthy();
-
-        expect(screen.queryByTestId("screens.home.trending-movies")).toBeNull();
-        expect(
-            screen.queryByTestId("screens.home.movies-list.upcoming"),
-        ).toBeNull();
-        expect(
-            screen.queryByTestId("screens.home.movies-list.top-rated"),
-        ).toBeNull();
-    });
-
-    it("renders screen properly when is not loading", () => {
-        mockUseHomeScreen.mockReturnValueOnce({
-            ...mockHookValues,
-            isLoading: false,
-        });
-        render(<HomeScreen navigation={mockNavigation} />);
-
-        expect(screen.queryByTestId("screens.home.loading")).toBeNull();
 
         expect(screen.getByTestId("screens.home.trending-movies")).toBeTruthy();
         expect(
