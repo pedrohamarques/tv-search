@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 
 import { usePersonScreen } from "../person.hook";
-import { DUMMY_PERSON_DETAILS, DUMMY_PERSON_MOVIES } from "./dummy";
+import { DUMMY_PERSON_DETAILS, DUMMY_PERSON_MOVIES } from "@constants/data";
 
 const mockUseRoute = jest.fn();
 

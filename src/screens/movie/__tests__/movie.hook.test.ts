@@ -7,7 +7,7 @@ import {
     DUMMY_MOVIE_CREDITS,
     DUMMY_MOVIE_DETAILS,
     DUMMY_SIMILAR_MOVIES,
-} from "./dummy";
+} from "@constants/data";
 
 const mockGoBack = jest.fn();
 const mockNavigate = jest.fn();

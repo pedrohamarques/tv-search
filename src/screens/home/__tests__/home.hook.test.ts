@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 
 import { useHomeScreen } from "../home.hook";
-import { DUMMY_MOVIES } from "./dummy";
+import { DUMMY_MOVIES } from "@constants/data";
 
 import { RouteStackList } from "@typings/route";
 
@@ -49,7 +49,7 @@ describe("screens/home/useHomeScreen", () => {
 
         expect(result.current.movies).toEqual({
             trending: {
-                movies: DUMMY_MOVIES.results,
+                movies: DUMMY_MOVIES,
                 isLoading: false,
                 error: "",
             },
@@ -103,7 +103,7 @@ describe("screens/home/useHomeScreen", () => {
 
         expect(result.current.movies).toEqual({
             upcoming: {
-                movies: DUMMY_MOVIES.results,
+                movies: DUMMY_MOVIES,
                 isLoading: false,
                 error: "",
             },
@@ -157,7 +157,7 @@ describe("screens/home/useHomeScreen", () => {
 
         expect(result.current.movies).toEqual({
             topRated: {
-                movies: DUMMY_MOVIES.results,
+                movies: DUMMY_MOVIES,
                 isLoading: false,
                 error: "",
             },

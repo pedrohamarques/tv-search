@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react-native";
 
 import { PersonScreen } from "../person";
-import { DUMMY_PERSON_DETAILS, DUMMY_PERSON_MOVIES } from "./dummy";
+import { DUMMY_PERSON_DETAILS, DUMMY_PERSON_MOVIES } from "@constants/data";
 
 const mockNavigation = {
     setOptions: jest.fn(),
