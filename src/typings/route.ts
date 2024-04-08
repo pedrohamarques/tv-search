@@ -7,6 +7,7 @@ export type RootStackParamsList = {
         castId: number;
     };
     [RouteStackList.SEARCH]: undefined;
+    [RouteStackList.PROFILE]: undefined;
 };
 
 export enum RouteStackList {
@@ -14,6 +15,7 @@ export enum RouteStackList {
     MOVIE = "MovieScreen",
     PERSON = "PersonScreen",
     SEARCH = "SearchScreen",
+    PROFILE = "ProfileScreen",
 }
 
 export type RootDrawerParamsList = {
