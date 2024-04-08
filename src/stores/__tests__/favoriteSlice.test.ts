@@ -1,4 +1,7 @@
-import reducer, { addFavorite, removeFavorite } from "../favoritesSlice";
+import reducer, {
+    addFavoriteMovie,
+    removeFavoriteMovie,
+} from "../favoritesSlice";
 
 const mockMovieData = {
     id: 1,
@@ -20,9 +23,11 @@ describe("favoriteSlice", () => {
     it("adds a movie when addFavorite is called", () => {
         const previousState = { movies: [] };
 
-        expect(reducer(previousState, addFavorite(mockMovieData))).toEqual({
-            movies: [{ id: 1, imagePath: "someImage", title: "someTitle" }],
-        });
+        expect(reducer(previousState, addFavoriteMovie(mockMovieData))).toEqual(
+            {
+                movies: [{ id: 1, imagePath: "someImage", title: "someTitle" }],
+            },
+        );
     });
 
     it("removes a movie when removeFavorite is called", () => {
@@ -33,7 +38,7 @@ describe("favoriteSlice", () => {
         expect(
             reducer(
                 previousState,
-                removeFavorite({
+                removeFavoriteMovie({
                     id: 2,
                     imagePath: "someImage",
                     title: "someTitle",

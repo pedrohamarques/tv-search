@@ -10,9 +10,9 @@ import { useRequests } from "@services/use-request";
 
 import { useAppDispatch, useAppSelector } from "@stores/hooks";
 import {
-    addFavorite,
+    addFavoriteMovie,
     favoritesSelector,
-    removeFavorite,
+    removeFavoriteMovie,
 } from "@stores/favoritesSlice";
 
 import {
@@ -101,7 +101,7 @@ export function useMovieScreen() {
         if (movie) {
             if (!isFavorite) {
                 dispatch(
-                    addFavorite({
+                    addFavoriteMovie({
                         id: movie.id,
                         imagePath: movie.poster_path,
                         title: movie.title,
@@ -116,7 +116,7 @@ export function useMovieScreen() {
                     setIsFavorite(true);
             } else {
                 dispatch(
-                    removeFavorite({
+                    removeFavoriteMovie({
                         id: movie.id,
                         imagePath: movie.poster_path,
                         title: movie.title,
