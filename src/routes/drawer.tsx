@@ -5,7 +5,8 @@ import HomeScreen from "@screens/home";
 import FavoriteMoviesScreen from "@screens/favorite-movies";
 
 import { RootDrawerParamsList, RouteDrawerList } from "@typings/route";
-import { HomeIcon, StarIcon } from "react-native-heroicons/solid";
+import { HomeIcon, StarIcon, UserIcon } from "react-native-heroicons/solid";
+import { FavoriteCastScreen } from "@screens/favorite-cast";
 
 const Drawer = createDrawerNavigator<RootDrawerParamsList>();
 
@@ -43,6 +44,23 @@ export function DrawerContainer() {
                     headerShadowVisible: false,
                     drawerIcon: ({ color, focused }) => (
                         <StarIcon
+                            size={20}
+                            color={focused ? "yellow" : color}
+                        />
+                    ),
+                }}
+            />
+
+            <Drawer.Screen
+                name={RouteDrawerList.FAVORITE_CAST}
+                component={FavoriteCastScreen}
+                options={{
+                    headerTitle: "",
+                    headerTintColor: "white",
+                    drawerLabel: "Favorite Cast",
+                    headerShadowVisible: false,
+                    drawerIcon: ({ color, focused }) => (
+                        <UserIcon
                             size={20}
                             color={focused ? "yellow" : color}
                         />
