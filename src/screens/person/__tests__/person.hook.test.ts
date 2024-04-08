@@ -24,26 +24,36 @@ jest.mock("@services/use-request", () => ({
     }),
 }));
 
+const mockToastShow = jest.fn();
+
+jest.mock("react-native-toast-message", () => ({
+    show: () => mockToastShow(),
+}));
+
+const mockAppState = {
+    favorites: {
+        movies: [],
+        cast: [{ id: 1, imagePath: "someImage", name: "someTitle" }],
+    },
+};
+
+const mockUseSelector = jest.fn();
+const mockUseDispatch = jest.fn();
+
+jest.mock("react-redux", () => ({
+    useSelector: (callback: () => void) => mockUseSelector(callback),
+    useDispatch: () => () => mockUseDispatch(),
+}));
+
 describe("screens/person/usePersonScreen", () => {
     beforeEach(() => {
         jest.clearAllMocks();
         mockUseRoute.mockReturnValue({
             params: {
-                cast: {
-                    id: 1,
-                },
+                castId: 1,
             },
         });
-    });
-
-    it("updates isFavorites value when handleFavoritePress is called", () => {
-        const { result } = renderHook(() => usePersonScreen());
-
-        expect(result.current.isFavorite).toBe(false);
-
-        act(() => result.current.handleFavoritePress());
-
-        waitFor(() => expect(result.current.isFavorite).toBe(true));
+        mockUseSelector.mockImplementation(callback => callback(mockAppState));
     });
 
     it("goes to previous screen when handleBAckPress is called", () => {
@@ -96,5 +106,54 @@ describe("screens/person/usePersonScreen", () => {
         );
 
         expect(result.current.personMovies).toEqual([]);
+    });
+
+    it("turns isFavorite value to false when handleFavoritePress is called and the cast is already on favorites", async () => {
+        mockFetchPersonDetails.mockResolvedValueOnce(DUMMY_PERSON_MOVIES);
+
+        const { result } = renderHook(() => usePersonScreen());
+
+        expect(result.current.isFavorite).toBe(true);
+
+        await waitFor(() =>
+            expect(mockFetchPersonDetails).toHaveBeenCalledTimes(1),
+        );
+
+        act(() => result.current.handleFavoritePress());
+
+        expect(mockUseDispatch).toHaveBeenCalledTimes(1);
+
+        expect(mockToastShow).toHaveBeenCalledTimes(1);
+
+        waitFor(() => expect(result.current.isFavorite).toBe(false));
+    });
+
+    it("turns isFavorite value to true when handleFavoritePress is called and the cast is not on favorites", async () => {
+        mockFetchPersonDetails.mockResolvedValueOnce(DUMMY_PERSON_MOVIES);
+
+        const mockNewAppState = {
+            favorites: {
+                movies: [],
+                cast: [{ id: 2, name: "Some title", imagePath: "someImage" }],
+            },
+        };
+        mockUseSelector.mockImplementationOnce(callback =>
+            callback(mockNewAppState),
+        );
+        const { result } = renderHook(() => usePersonScreen());
+
+        expect(result.current.isFavorite).toBe(false);
+
+        await waitFor(() =>
+            expect(mockFetchPersonDetails).toHaveBeenCalledTimes(1),
+        );
+
+        act(() => result.current.handleFavoritePress());
+
+        expect(mockUseDispatch).toHaveBeenCalledTimes(1);
+
+        expect(mockToastShow).toHaveBeenCalledTimes(1);
+
+        waitFor(() => expect(result.current.isFavorite).toBe(true));
     });
 });

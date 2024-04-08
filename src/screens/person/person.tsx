@@ -94,8 +94,8 @@ export function PersonScreen({ navigation }: PersonScreenNavigationProps) {
                                         : require("@assets/avatar.png")
                                 }
                                 style={{
-                                    height: height * 0.43,
-                                    width: width * 0.74,
+                                    height: height * 0.4,
+                                    width: width * 0.65,
                                 }}
                             />
                         </View>
