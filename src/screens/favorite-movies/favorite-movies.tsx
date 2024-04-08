@@ -34,7 +34,7 @@ export function FavoriteMoviesScreen() {
                                     key={index}>
                                     <View className='space-y-2 mb-4 px-2'>
                                         <Image
-                                            testID={`screens.search.image-${index}`}
+                                            testID={`screens.favorite-movies.image-${index}`}
                                             className='rounded-3xl'
                                             source={
                                                 item.imagePath
@@ -65,7 +65,7 @@ export function FavoriteMoviesScreen() {
                     <Image
                         source={require("@assets/empty-list.png")}
                         className='h-96 w-96'
-                        testID='screens.search.no-search-image'
+                        testID='screens.favorite-movie.no-favorites-image'
                     />
                     <Text className='tracking-wider text-xl text-white'>
                         The movies you mark as favorite will appear here
