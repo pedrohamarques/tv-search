@@ -43,12 +43,18 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
             ),
         });
     }, [navigation]);
-    const { movies, handleSearchPress } = useHomeScreen();
+    const { movies, handleSearchPress, handleProfilePress } = useHomeScreen();
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 10 }}
-            className='pt-4 bg-neutral-800'>
+            className='pt-4 bg-neutral-800 '>
+            <View className='flex-row items-center justify-end w-full pr-4 mb-4'>
+                <TouchableOpacity onPress={handleProfilePress}>
+                    <Text className='text-white text-xl'>Hello, Pedro</Text>
+                </TouchableOpacity>
+            </View>
+
             <TrendingMovies
                 data={movies.trending.movies}
                 testID='screens.home.trending-movies'

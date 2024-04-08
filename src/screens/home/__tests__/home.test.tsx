@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react-native";
+import { fireEvent, render, screen } from "@testing-library/react-native";
 
 import { HomeScreen } from "../home";
 import { DUMMY_MOVIES } from "@constants/data";
@@ -33,6 +33,7 @@ const mockHookValues = {
         },
     },
     handleSearchPress: jest.fn(),
+    handleProfilePress: jest.fn(),
 };
 
 describe("screens/home/<Home />", () => {
@@ -51,5 +52,15 @@ describe("screens/home/<Home />", () => {
         expect(
             screen.getByTestId("screens.home.movies-list.top-rated"),
         ).toBeTruthy();
+
+        expect(screen.getByText("Hello, Pedro")).toBeTruthy();
+    });
+
+    it("calls handleProfilePress when `Hello, user` is pressed", () => {
+        render(<HomeScreen navigation={mockNavigation} />);
+
+        fireEvent.press(screen.getByText("Hello, Pedro"));
+
+        expect(mockHookValues.handleProfilePress).toHaveBeenCalledTimes(1);
     });
 });

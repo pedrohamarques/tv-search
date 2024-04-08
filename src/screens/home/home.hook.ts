@@ -91,6 +91,10 @@ export function useHomeScreen() {
         }
     };
 
+    function handleProfilePress() {
+        navigation.navigate(RouteStackList.PROFILE);
+    }
+
     useEffect(() => {
         getTrendingMovies();
         getUpcomingMovies();
@@ -99,6 +103,7 @@ export function useHomeScreen() {
 
     return {
         handleSearchPress,
+        handleProfilePress,
         movies: state,
     };
 }

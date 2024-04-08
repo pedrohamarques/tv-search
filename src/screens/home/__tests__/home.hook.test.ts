@@ -199,4 +199,13 @@ describe("screens/home/useHomeScreen", () => {
             },
         });
     });
+
+    it("navigates to Profile Screen when handleProfilePress is called", () => {
+        const { result } = renderHook(() => useHomeScreen());
+
+        act(() => result.current.handleProfilePress());
+
+        expect(mockNavigate).toHaveBeenCalledTimes(1);
+        expect(mockNavigate).toHaveBeenCalledWith(RouteStackList.PROFILE);
+    });
 });
