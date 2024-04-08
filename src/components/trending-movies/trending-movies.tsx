@@ -14,6 +14,7 @@ type TrendingMoviesProps = {
     data: TrendingMovieResults[];
     testID?: string;
     isLoading: boolean;
+    hasError: boolean;
 };
 
 const { width, height } = Dimensions.get("window");
@@ -22,6 +23,7 @@ export function TrendingMovies({
     data,
     isLoading,
     testID = "components.trending-movies",
+    hasError,
 }: TrendingMoviesProps) {
     const { handleCardPress } = useTrendingMovies();
     return (
@@ -32,6 +34,13 @@ export function TrendingMovies({
                     size={140}
                     testID='components.trending-movies.loading'
                 />
+            ) : hasError && !isLoading ? (
+                <View className='justify-center items-center my-10'>
+                    <Text className='text-white text-l align-center'>
+                        There was some error when fetching data. Please try
+                        again.
+                    </Text>
+                </View>
             ) : (
                 <Carousel
                     testID='components.trending-movies.carousel'

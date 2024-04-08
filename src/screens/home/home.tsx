@@ -53,6 +53,7 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
                 data={movies.trending.movies}
                 testID='screens.home.trending-movies'
                 isLoading={movies.trending.isLoading}
+                hasError={!!movies.trending.error}
             />
             <MoviesList
                 title='Upcoming'
