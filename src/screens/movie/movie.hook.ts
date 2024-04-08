@@ -41,10 +41,10 @@ export function useMovieScreen() {
 
     const movieId = route.params.movieId;
 
-    const favoriteMovies = useAppSelector(favoritesSelector);
+    const { movies } = useAppSelector(favoritesSelector);
     const dispatch = useAppDispatch();
 
-    const favoriteMoviesIds = favoriteMovies.movies.map(item => item.id);
+    const favoriteMoviesIds = movies.map(item => item.id);
     const isFavoriteMovie = favoriteMoviesIds.includes(movieId);
 
     const [isFavorite, setIsFavorite] = useState(isFavoriteMovie);
@@ -134,7 +134,7 @@ export function useMovieScreen() {
     }
 
     function handleCastPress(cast: CastType) {
-        navigation.navigate(RouteStackList.PERSON, { cast });
+        navigation.replace(RouteStackList.PERSON, { castId: cast.id });
     }
 
     return {

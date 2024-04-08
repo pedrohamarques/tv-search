@@ -10,14 +10,14 @@ import {
 } from "@constants/data";
 
 const mockGoBack = jest.fn();
-const mockNavigate = jest.fn();
+const mockReplace = jest.fn();
 
 const mockUseRoute = jest.fn();
 
 jest.mock("@react-navigation/native", () => ({
     useNavigation: () => ({
         goBack: mockGoBack,
-        navigate: mockNavigate,
+        replace: mockReplace,
     }),
     useRoute: () => mockUseRoute(),
 }));
@@ -43,6 +43,7 @@ jest.mock("react-native-toast-message", () => ({
 const mockAppState = {
     favorites: {
         movies: [{ id: 1, imagePath: "someImage", title: "someTitle" }],
+        cast: [],
     },
 };
 
@@ -78,9 +79,9 @@ describe("screens/movie/useMovieScreen", () => {
 
         act(() => result.current.handleCastPress(DUMMY_CAST[0]));
 
-        expect(mockNavigate).toHaveBeenCalledTimes(1);
-        expect(mockNavigate).toHaveBeenCalledWith(RouteStackList.PERSON, {
-            cast: DUMMY_CAST[0],
+        expect(mockReplace).toHaveBeenCalledTimes(1);
+        expect(mockReplace).toHaveBeenCalledWith(RouteStackList.PERSON, {
+            castId: DUMMY_CAST[0].id,
         });
     });
 
