@@ -60,6 +60,7 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
                 data={movies.upcoming.movies}
                 testID='screens.home.movies-list.upcoming'
                 isLoading={movies.upcoming.isLoading}
+                hasError={!!movies.upcoming.error}
             />
 
             <MoviesList
@@ -67,6 +68,7 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
                 data={movies.topRated.movies}
                 testID='screens.home.movies-list.top-rated'
                 isLoading={movies.topRated.isLoading}
+                hasError={!!movies.topRated.error}
             />
         </ScrollView>
     );

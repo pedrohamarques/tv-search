@@ -27,6 +27,7 @@ type MoviesListProps = {
     hideSeeAll?: boolean;
     testID?: string;
     isLoading?: boolean;
+    hasError: boolean;
 };
 
 export function MoviesList({
@@ -35,6 +36,7 @@ export function MoviesList({
     data,
     hideSeeAll = false,
     testID = "components.movie-list",
+    hasError,
 }: MoviesListProps) {
     const { handlePress } = useMoviesList();
     return (
@@ -51,6 +53,13 @@ export function MoviesList({
             </View>
             {isLoading ? (
                 <Loading size={140} testID='components.movies-list.loading' />
+            ) : hasError && !isLoading ? (
+                <View className='justify-center items-center my-10'>
+                    <Text className='text-white text-l align-center'>
+                        There was some error when fetching data. Please try
+                        again.
+                    </Text>
+                </View>
             ) : (
                 <ScrollView
                     horizontal

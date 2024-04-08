@@ -8,6 +8,7 @@ const mockValues = {
     title: "Upcoming",
     data: DUMMY_MOVIES,
     isLoading: false,
+    hasError: false,
 };
 
 jest.mock("@react-navigation/native", () => ({
@@ -34,6 +35,12 @@ describe("components/movies-list/<MoviesList />", () => {
         expect(
             screen.queryByTestId("components.movies-list.loading"),
         ).toBeNull();
+
+        expect(
+            screen.queryByText(
+                "There was some error when fetching data. Please try again.",
+            ),
+        ).toBeNull();
     });
 
     it("renders component properly without see all button", () => {
@@ -52,6 +59,12 @@ describe("components/movies-list/<MoviesList />", () => {
         expect(
             screen.queryByTestId("components.movies-list.loading"),
         ).toBeNull();
+
+        expect(
+            screen.queryByText(
+                "There was some error when fetching data. Please try again.",
+            ),
+        ).toBeNull();
     });
 
     it("renders component properly when isLoading is true", () => {
@@ -69,6 +82,36 @@ describe("components/movies-list/<MoviesList />", () => {
 
         expect(
             screen.getByTestId("components.movies-list.loading"),
+        ).toBeTruthy();
+
+        expect(
+            screen.queryByText(
+                "There was some error when fetching data. Please try again.",
+            ),
+        ).toBeNull();
+    });
+
+    it("renders component properly when isLoading is true", () => {
+        render(<MoviesList {...mockValues} hasError />);
+
+        expect(screen.getByText("Upcoming")).toBeTruthy();
+
+        expect(screen.getByText("See All")).toBeTruthy();
+        expect(
+            screen.queryByTestId("components.movie-list.movie-item-0"),
+        ).toBeNull();
+        expect(
+            screen.queryByTestId("components.movie-list.movie-item-1"),
+        ).toBeNull();
+
+        expect(
+            screen.queryByTestId("components.movies-list.loading"),
+        ).toBeNull();
+
+        expect(
+            screen.getByText(
+                "There was some error when fetching data. Please try again.",
+            ),
         ).toBeTruthy();
     });
 });

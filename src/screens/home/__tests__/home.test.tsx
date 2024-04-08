@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react-native";
 
 import { HomeScreen } from "../home";
-import { DUMMY_MOVIES } from "./dummy";
+import { DUMMY_MOVIES } from "@constants/data";
 
 const mockNavigation = {
     setOptions: jest.fn(),
@@ -20,15 +20,15 @@ jest.mock("../home.hook", () => ({
 const mockHookValues = {
     movies: {
         trending: {
-            movies: DUMMY_MOVIES.results,
+            movies: DUMMY_MOVIES,
             isLoading: false,
         },
         upcoming: {
-            movies: DUMMY_MOVIES.results,
+            movies: DUMMY_MOVIES,
             isLoading: false,
         },
         topRated: {
-            movies: DUMMY_MOVIES.results,
+            movies: DUMMY_MOVIES,
             isLoading: false,
         },
     },
