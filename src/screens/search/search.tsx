@@ -81,7 +81,7 @@ export function SearchScreen({ navigation }: SearchScreenNavigationProps) {
             </View>
 
             {isLoading ? (
-                <View className='flex-1 justify-center items-center pb-24'>
+                <View className='flex-1 justify-center items-center pb-24 mb-24'>
                     <Loading testID='screens.search.loading' />
                 </View>
             ) : searchedMovies.length > 0 ? (

@@ -70,7 +70,9 @@ export function PersonScreen({ navigation }: PersonScreenNavigationProps) {
             className='flex-1 bg-neutral-900'
             contentContainerStyle={{ paddingBottom: 20 }}>
             {isLoading ? (
-                <Loading testID='screens.person.loading' />
+                <View className='pt-24 mt-24'>
+                    <Loading testID='screens.person.loading' />
+                </View>
             ) : (
                 <View>
                     <View

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
@@ -65,7 +65,9 @@ export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
             contentContainerStyle={{ paddingBottom: 20 }}
             className='flex-1 bg-neutral-900'>
             {isLoading ? (
-                <Loading testID='screens.movie.loading' />
+                <View className='mt-24 pt-24'>
+                    <Loading testID='screens.movie.loading' />
+                </View>
             ) : (
                 movie && (
                     <>
