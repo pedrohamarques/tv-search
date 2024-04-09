@@ -29,7 +29,7 @@ export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
                 <TouchableOpacity
                     style={[
                         styles.background,
-                        { padding: 1, borderRadius: 120 },
+                        { padding: 1, borderRadius: 12 },
                     ]}
                     onPress={handleBackPress}>
                     <ChevronLeftIcon
