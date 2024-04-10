@@ -4,19 +4,25 @@ import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 
+import { COUNTRIES } from "@constants/countries";
+
+import type { CountryProps } from "@typings/constants";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import type { RootStackParamsList } from "@typings/route";
+import { type RootStackParamsList, RouteStackList } from "@typings/route";
 
 export function useProfileScreen() {
     const [avatar, setAvatar] = useState<string | null>(null);
     const [name, setName] = useState("");
+    const [country, setCountry] = useState<CountryProps | null>(COUNTRIES[0]);
     const [isEditing, setIsEditing] = useState(false);
 
     const navigation =
-        useNavigation<NativeStackNavigationProp<RootStackParamsList>>();
+        useNavigation<
+            NativeStackNavigationProp<RootStackParamsList, RouteStackList>
+        >();
 
     function handleBackPress() {
-        navigation.goBack();
+        navigation.replace(RouteStackList.DRAWER);
     }
 
     const nameSchema = z.string().trim().min(3);
@@ -58,12 +64,19 @@ export function useProfileScreen() {
         }
         setIsEditing(previousState => !previousState);
     }
+
+    function handleChooseCountry({ code, name }: CountryProps) {
+        setCountry({ code, name });
+    }
+
     return {
         handleBackPress,
         handlePickImage,
-        avatar,
-        isEditing,
         handleEditingPress,
         setName,
+        handleChooseCountry,
+        avatar,
+        isEditing,
+        country,
     };
 }

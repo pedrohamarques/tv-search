@@ -9,16 +9,19 @@ import {
 } from "react-native";
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { PencilIcon, CheckIcon } from "react-native-heroicons/outline";
 
 import { styles } from "@themes/index";
+
+import { Avatar } from "@components/avatar";
+import { Input } from "@components/input";
+import { CountriesDropDown } from "@components/countries-dropdown";
+import { ConfirmButton } from "@components/confirm-button";
 
 import { useProfileScreen } from "./profile.hook";
 
 import { RootStackParamsList } from "@typings/route";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Avatar } from "@components/avatar";
-import { Input } from "@components/input";
-import { PencilIcon, CheckIcon } from "react-native-heroicons/outline";
 
 type ProfileScreenNavigationProps = {
     navigation: Pick<
@@ -48,12 +51,14 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
     }, [navigation]);
 
     const {
-        handleBackPress,
-        handlePickImage,
         avatar,
         isEditing,
+        country,
+        handleBackPress,
+        handlePickImage,
         handleEditingPress,
         setName,
+        handleChooseCountry,
     } = useProfileScreen();
     return (
         <KeyboardAvoidingView
@@ -118,17 +123,18 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                             editable={false}
                         />
                     </Input>
-                    <Input title='Country'>
-                        <FontAwesome6
-                            name='flag'
-                            size={20}
-                            color={styles.background.backgroundColor}
-                        />
-                        <Input.Field
-                            placeholder='Insert your country'
-                            textContentType='countryName'
-                        />
-                    </Input>
+
+                    <CountriesDropDown
+                        onItemPress={handleChooseCountry}
+                        country={country}
+                    />
+                </View>
+
+                <View className='w-full self-center mt-6 flex-row justify-center items-center'>
+                    <ConfirmButton
+                        onPress={() => console.log("here2")}
+                        disabled={false}
+                    />
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
