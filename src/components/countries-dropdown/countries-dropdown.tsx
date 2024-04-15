@@ -12,18 +12,24 @@ type CountriesDropdownProps = {
     testID?: string;
     onItemPress: (item: CountryProps) => void;
     country: CountryProps | null;
+    isEditing: boolean;
 };
 
 export function CountriesDropDown({
     testID = "components.countries-dropdown",
     onItemPress,
     country,
+    isEditing,
 }: CountriesDropdownProps) {
     return (
         <View>
             <Text className='text-yellow-500 font-bold pl-2 mt-2'>Country</Text>
             <Dropdown
-                style={styles.dropdown}
+                style={
+                    isEditing
+                        ? styles.dropdown
+                        : { ...styles.dropdown, ...styles.inactiveDropdown }
+                }
                 containerStyle={styles.container}
                 selectedTextStyle={styles.selectedTextStyle}
                 maxHeight={200}
@@ -52,6 +58,9 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderColor: "rgba(55, 65, 81, 1)",
         backgroundColor: "rgba(3,7, 18, 1)",
+    },
+    inactiveDropdown: {
+        backgroundColor: "rgba(55, 65, 81, 1)",
     },
     selectedTextStyle: {
         fontSize: 16,
