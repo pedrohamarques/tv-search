@@ -30,11 +30,16 @@ function Input({
 
 type FieldProps = TextInputProps & {
     isEditing?: boolean;
+    testID?: string;
 };
 
-function Field({ editable, ...rest }: FieldProps) {
+function Field({
+    editable,
+    testID = "components.input.input-field",
+    ...rest
+}: FieldProps) {
     return (
-        <View className='flex-1'>
+        <View className='flex-1' testID={testID}>
             <TextInput
                 className={`flex-1 text-white justify-center text-lg pl-4 pb-2 ${!editable && "font-bold text-gray-900"}`}
                 placeholderTextColor='gray'
