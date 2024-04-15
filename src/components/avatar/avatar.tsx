@@ -22,12 +22,18 @@ export function Avatar({
             <TouchableOpacity activeOpacity={0.7} onPress={onAvatarPress}>
                 {!image ? (
                     <View className='flex-row bg-gray-400 w-56 h-56 rounded-full z-20 justify-center items-center'>
-                        <CameraIcon strokeWidth={2.5} color='white' size={40} />
+                        <CameraIcon
+                            strokeWidth={2.5}
+                            color='white'
+                            size={40}
+                            testID='components.avatar.camera-icon'
+                        />
                     </View>
                 ) : (
                     <Image
                         source={{ uri: image }}
                         className='h-56 w-56 rounded-full z-20'
+                        testID='components.avatar.image'
                     />
                 )}
             </TouchableOpacity>
