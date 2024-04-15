@@ -32,13 +32,14 @@ type FieldProps = TextInputProps & {
     isEditing?: boolean;
 };
 
-function Field({ isEditing = false, ...rest }: FieldProps) {
+function Field({ editable, ...rest }: FieldProps) {
     return (
         <View className='flex-1'>
             <TextInput
-                className={`flex-1 text-white  justify-center text-lg pl-4 pb-2 ${!isEditing && "font-bold text-gray-900"}`}
+                className={`flex-1 text-white justify-center text-lg pl-4 pb-2 ${!editable && "font-bold text-gray-900"}`}
                 placeholderTextColor='gray'
                 textAlignVertical='top'
+                editable={editable}
                 multiline={false}
                 cursorColor={styles.background.backgroundColor}
                 {...rest}
