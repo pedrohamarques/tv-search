@@ -1,3 +1,4 @@
-import { COUNTRIES } from "@constants/countries";
-
-export type CountryProps = (typeof COUNTRIES)[0];
+export type CountryProps = {
+    name: string;
+    code: string;
+};
