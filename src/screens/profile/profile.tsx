@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { PencilIcon, CheckIcon } from "react-native-heroicons/outline";
+import { PencilIcon } from "react-native-heroicons/outline";
 
 import { styles } from "@themes/index";
 
@@ -51,14 +51,15 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
     }, [navigation]);
 
     const {
-        avatar,
-        isEditing,
-        country,
+        isUpdating,
+        profileState,
+        updatingName,
+        handleUpdateProfile,
         handleBackPress,
         handlePickImage,
-        handleEditingPress,
-        setName,
+        handleEditingNamePress,
         handleChooseCountry,
+        handleChangeName,
     } = useProfileScreen();
     return (
         <KeyboardAvoidingView
@@ -72,11 +73,14 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                     </Text>
                 </View>
                 <View className=' justify-center items-center mb-4'>
-                    <Avatar onAvatarPress={handlePickImage} image={avatar} />
+                    <Avatar
+                        onAvatarPress={handlePickImage}
+                        image={profileState.avatar.data}
+                    />
                 </View>
 
                 <View className='mt-4 px-4'>
-                    <Input title='Name' isEditing={isEditing}>
+                    <Input title='Name' isEditing={updatingName}>
                         <FontAwesome6
                             name='user-circle'
                             size={20}
@@ -86,23 +90,16 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                             placeholder='Insert your name'
                             keyboardType='default'
                             autoCorrect={false}
-                            editable={isEditing}
-                            onChangeText={setName}
-                            isEditing={isEditing}
+                            editable={updatingName}
+                            onChangeText={text => handleChangeName(text)}
+                            isEditing={updatingName}
                         />
                         <TouchableOpacity
-                            onPress={handleEditingPress}
+                            onPress={handleEditingNamePress}
                             style={{ paddingRight: 4 }}>
-                            {!isEditing ? (
+                            {!updatingName && (
                                 <PencilIcon
                                     size={20}
-                                    strokeWidth={2.5}
-                                    color={styles.background.backgroundColor}
-                                />
-                            ) : (
-                                <CheckIcon
-                                    size={20}
-                                    stroke={styles.background.backgroundColor}
                                     strokeWidth={2.5}
                                     color={styles.background.backgroundColor}
                                 />
@@ -126,14 +123,15 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
 
                     <CountriesDropDown
                         onItemPress={handleChooseCountry}
-                        country={country}
+                        country={profileState.country.data}
+                        isEditing={profileState.country.isEditing}
                     />
                 </View>
 
                 <View className='w-full self-center mt-6 flex-row justify-center items-center'>
                     <ConfirmButton
-                        onPress={() => console.log("here2")}
-                        disabled={false}
+                        onPress={handleUpdateProfile}
+                        disabled={!isUpdating}
                     />
                 </View>
             </ScrollView>
