@@ -40,7 +40,9 @@ describe("screens/home/useHomeScreen", () => {
     });
 
     it("requests trending movies and store them", async () => {
-        mockFetchTrendingMovies.mockResolvedValueOnce(DUMMY_MOVIES);
+        mockFetchTrendingMovies.mockResolvedValueOnce({
+            results: DUMMY_MOVIES,
+        });
         const { result } = renderHook(() => useHomeScreen());
 
         await waitFor(() =>
@@ -94,7 +96,9 @@ describe("screens/home/useHomeScreen", () => {
     });
 
     it("requests upcoming movies and store them", async () => {
-        mockFetchUpcomingMovies.mockResolvedValueOnce(DUMMY_MOVIES);
+        mockFetchUpcomingMovies.mockResolvedValueOnce({
+            results: DUMMY_MOVIES,
+        });
         const { result } = renderHook(() => useHomeScreen());
 
         await waitFor(() =>
@@ -148,7 +152,9 @@ describe("screens/home/useHomeScreen", () => {
     });
 
     it("requests top rated movies and store them", async () => {
-        mockFetchTopRatedMovies.mockResolvedValueOnce(DUMMY_MOVIES);
+        mockFetchTopRatedMovies.mockResolvedValueOnce({
+            results: DUMMY_MOVIES,
+        });
         const { result } = renderHook(() => useHomeScreen());
 
         await waitFor(() =>

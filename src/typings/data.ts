@@ -80,7 +80,7 @@ export type TopRatedMovieResults = {
 export type MovieDetailsResponse = {
     adult: boolean;
     backdrop_path: string;
-    belongs_to_collection: BelongsToCollection;
+    belongs_to_collection: BelongsToCollection | null;
     budget: number;
     genres: Genre[];
     homepage: string;

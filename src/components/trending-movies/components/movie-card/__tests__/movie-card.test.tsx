@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react-native";
 
 import { MovieCard } from "../movie-card";
-import { DUMMY_MOVIES } from "../../../__tests__/dummy";
+import { DUMMY_MOVIES } from "@components/trending-movies/__tests__/dummy";
 
 const mockValues = {
     item: DUMMY_MOVIES[0],

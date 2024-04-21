@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react-native";
 
 import { MovieDetails } from "../movie-details";
-import { DUMMY_MOVIE_DETAILS } from "@screens/movie/__tests__/dummy";
+import { DUMMY_MOVIE_DETAILS } from "@constants/data";
 
 describe("screens/movie/components/movie-details/<MovieDetails />", () => {
     beforeEach(() => {
@@ -15,13 +15,12 @@ describe("screens/movie/components/movie-details/<MovieDetails />", () => {
         expect(
             screen.getByTestId("screens.movie.component.movie-details.image"),
         ).toBeTruthy();
-        expect(screen.getByText("The Omega Man")).toBeTruthy();
-        expect(screen.getByText("Released • 1971 • 98 min")).toBeTruthy();
-        expect(screen.getByText("Science Fiction • ")).toBeTruthy();
+        expect(screen.getByText("Catch a Fire")).toBeTruthy();
+        expect(screen.getByText("Released • 2006 • 101 min")).toBeTruthy();
         expect(screen.getByText("Action")).toBeTruthy();
         expect(
             screen.getByText(
-                "Due to an experimental vaccine, Dr. Robert Neville is the only human survivor of an apocalyptic war waged with biological weapons. Besides him, only a few hundred deformed, nocturnal people remain - sensitive to light, and homicidally psychotic.",
+                "The true story of anti-apartheid activists in South Africa, and particularly the life of Patrick Chamusso, a timid foreman at Secunda CTL, the largest synthetic fuel plant in the world. Patrick is wrongly accused, imprisoned and tortured for an attempt to bomb the plant, with the injustice transforming the apolitical worker into a radicalised insurgent, who then carries out his own successful sabotage mission.",
             ),
         ).toBeTruthy();
     });
