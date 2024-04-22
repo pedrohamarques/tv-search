@@ -20,11 +20,21 @@ blocks:
         commands:
           - checkout
       jobs:
-        - name: Unit  and Integration Tests
+        - name: Unit  and Integration Tests (1/3)
           commands:
-            - echo "Unit tests ..."
+            - echo "Unit tests 1/3"
             - cache restore
-            - npm test
+            - npm test -- --shard=1/3
+        - name: Unit and Integration Tests (2/3)
+          commands:
+            - echo "Unit tests 2/3"
+            - cache restore
+            - npm test -- --shard=2/3
+        - name: Unit and Integration Tests (3/3)
+          commands:
+            - echo "Unit tests 3/3"
+            - cache restore
+            - npm test -- --shard=3/3
 promotions:
   - name: Staging Deployment
     pipeline_file: pipeline_2.yml
