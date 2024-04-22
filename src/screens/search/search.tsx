@@ -51,6 +51,11 @@ export function SearchScreen({ navigation }: SearchScreenNavigationProps) {
                     />
                 </TouchableOpacity>
             ),
+            headerTitle: () => (
+                <Text className='text-white text-3xl font-bold'>
+                    <Text style={styles.text}>S</Text>earch
+                </Text>
+            ),
         });
     }, []);
     const {
