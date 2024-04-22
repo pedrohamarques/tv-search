@@ -5,12 +5,15 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 blocks:
-  - name: 'Block #1'
+  - name: Install Dependencies
     task:
       jobs:
-        - name: 'Job #1'
+        - name: npm install and cache
           commands:
             - checkout
+            - cache restore
+            - npm install
+            - cache store
   - name: Tests
     task:
       prologue:
