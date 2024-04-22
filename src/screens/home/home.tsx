@@ -43,7 +43,8 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
             ),
         });
     }, [navigation]);
-    const { movies, handleSearchPress, handleProfilePress } = useHomeScreen();
+    const { movies, handleSearchPress, handleProfilePress, handleSeeAllPress } =
+        useHomeScreen();
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}
@@ -67,6 +68,7 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
                 testID='screens.home.movies-list.upcoming'
                 isLoading={movies.upcoming.isLoading}
                 hasError={!!movies.upcoming.error}
+                handleSeeAllPress={() => handleSeeAllPress("upcoming")}
             />
 
             <MoviesList
@@ -75,6 +77,7 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
                 testID='screens.home.movies-list.top-rated'
                 isLoading={movies.topRated.isLoading}
                 hasError={!!movies.topRated.error}
+                handleSeeAllPress={() => handleSeeAllPress("topRated")}
             />
         </ScrollView>
     );

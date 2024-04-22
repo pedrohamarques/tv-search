@@ -214,4 +214,23 @@ describe("screens/home/useHomeScreen", () => {
         expect(mockNavigate).toHaveBeenCalledTimes(1);
         expect(mockNavigate).toHaveBeenCalledWith(RouteStackList.PROFILE);
     });
+
+    it("navigates to Browse Screen when handleSeeAllPress is called", () => {
+        mockFetchTopRatedMovies.mockResolvedValueOnce({
+            results: DUMMY_MOVIES,
+        });
+
+        const { result } = renderHook(() => useHomeScreen());
+
+        act(() => result.current.handleSeeAllPress("topRated"));
+
+        expect(mockNavigate).toHaveBeenCalledTimes(1);
+        expect(mockNavigate).toHaveBeenCalledWith(
+            RouteStackList.BROWSE_MOVIES,
+            {
+                movies: result.current.movies.topRated.movies,
+                route: "topRated",
+            },
+        );
+    });
 });

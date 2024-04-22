@@ -34,6 +34,7 @@ const mockHookValues = {
     },
     handleSearchPress: jest.fn(),
     handleProfilePress: jest.fn(),
+    handleSeeAllPress: jest.fn(),
 };
 
 describe("screens/home/<Home />", () => {
@@ -62,5 +63,13 @@ describe("screens/home/<Home />", () => {
         fireEvent.press(screen.getByText("Hello, Pedro"));
 
         expect(mockHookValues.handleProfilePress).toHaveBeenCalledTimes(1);
+    });
+
+    it("calls handleSeeAllPress when 'See All' is pressed", () => {
+        render(<HomeScreen navigation={mockNavigation} />);
+
+        fireEvent.press(screen.getAllByText("See All")[1]);
+
+        expect(mockHookValues.handleSeeAllPress).toHaveBeenCalledTimes(1);
     });
 });

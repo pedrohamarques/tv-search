@@ -95,6 +95,16 @@ export function useHomeScreen() {
         navigation.navigate(RouteStackList.PROFILE);
     }
 
+    function handleSeeAllPress(moviesCategory: "upcoming" | "topRated") {
+        navigation.navigate(RouteStackList.BROWSE_MOVIES, {
+            movies:
+                moviesCategory === "upcoming"
+                    ? state.upcoming.movies
+                    : state.topRated.movies,
+            route: moviesCategory,
+        });
+    }
+
     useEffect(() => {
         getTrendingMovies();
         getUpcomingMovies();
@@ -104,6 +114,7 @@ export function useHomeScreen() {
     return {
         handleSearchPress,
         handleProfilePress,
+        handleSeeAllPress,
         movies: state,
     };
 }
