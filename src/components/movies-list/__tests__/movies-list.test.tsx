@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react-native";
+import { fireEvent, render, screen } from "@testing-library/react-native";
 
 import { MoviesList } from "../movies-list";
 import { DUMMY_MOVIES } from "./dummy";
@@ -9,6 +9,7 @@ const mockValues = {
     data: DUMMY_MOVIES,
     isLoading: false,
     hasError: false,
+    handleSeeAllPress: jest.fn(),
 };
 
 jest.mock("@react-navigation/native", () => ({
@@ -113,5 +114,13 @@ describe("components/movies-list/<MoviesList />", () => {
                 "There was some error when fetching data. Please try again.",
             ),
         ).toBeTruthy();
+    });
+
+    it("calls handleSeeAllPress when See All button is pressed", () => {
+        render(<MoviesList {...mockValues} />);
+
+        fireEvent.press(screen.getByText("See All"));
+
+        expect(mockValues.handleSeeAllPress).toHaveBeenCalledTimes(1);
     });
 });

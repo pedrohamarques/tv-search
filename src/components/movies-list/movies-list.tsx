@@ -28,6 +28,7 @@ type MoviesListProps = {
     testID?: string;
     isLoading?: boolean;
     hasError: boolean;
+    handleSeeAllPress: () => void;
 };
 
 export function MoviesList({
@@ -37,6 +38,7 @@ export function MoviesList({
     hideSeeAll = false,
     testID = "components.movie-list",
     hasError,
+    handleSeeAllPress,
 }: MoviesListProps) {
     const { handlePress } = useMoviesList();
     return (
@@ -44,7 +46,7 @@ export function MoviesList({
             <View className='mx-4 flex-row justify-between items-center'>
                 <Text className='text-white text-xl'>{title}</Text>
                 {!hideSeeAll && (
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleSeeAllPress}>
                         <Text style={styles.text} className='text-lg'>
                             See All
                         </Text>
