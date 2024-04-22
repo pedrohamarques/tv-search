@@ -8,6 +8,9 @@ blocks:
   - name: Production Deploy
     task:
       jobs:
-        - name: dEPLOY
+        - name: Deploying
           commands:
-            - echo "Deploying to prodution"
+            - echo "Deploying to prodution using key $TMDB_API_KEY"
+      env_vars:
+        - name: TMDB_API_KEY
+          value: 1f311fa26ac52fd315da26d503a29ca6
