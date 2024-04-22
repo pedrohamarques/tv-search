@@ -20,12 +20,11 @@ blocks:
         commands:
           - checkout
       jobs:
-        - name: Unit Tests
+        - name: Unit  and Integration Tests
           commands:
             - echo "Unit tests ..."
-        - name: Integration Tests
-          commands:
-            - echo "Integration tests ..."
+            - cache restore
+            - npm test
 promotions:
   - name: Staging Deployment
     pipeline_file: pipeline_2.yml
