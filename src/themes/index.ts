@@ -1,6 +1,10 @@
+const colors = {
+    primary: "#eab308",
+};
+
 const theme = {
-    background: "#eab308",
-    text: "#eab308",
+    background: colors.primary,
+    text: colors.primary,
 };
 
 const styles = {
@@ -8,4 +12,4 @@ const styles = {
     background: { backgroundColor: theme.background },
 };
 
-export { theme, styles };
+export { theme, styles, colors };
