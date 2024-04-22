@@ -23,3 +23,8 @@ blocks:
         - name: Integration Tests
           commands:
             - echo "Integration tests ..."
+promotions:
+  - name: Staging Deployment
+    pipeline_file: pipeline_2.yml
+    auto_promote:
+      when: branch = 'main' AND result = 'passed'
