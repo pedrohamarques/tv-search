@@ -1,3 +1,5 @@
+import { TopRatedMovieResults, UpcomingMovieResults } from "./data";
+
 export type RootStackParamsList = {
     [RouteStackList.DRAWER]: undefined;
     [RouteStackList.MOVIE]: {
@@ -8,6 +10,10 @@ export type RootStackParamsList = {
     };
     [RouteStackList.SEARCH]: undefined;
     [RouteStackList.PROFILE]: undefined;
+    [RouteStackList.BROWSE_MOVIES]: {
+        movies: UpcomingMovieResults[] | TopRatedMovieResults[];
+        route: "upcoming" | "topRated";
+    };
 };
 
 export enum RouteStackList {
@@ -16,6 +22,7 @@ export enum RouteStackList {
     PERSON = "PersonScreen",
     SEARCH = "SearchScreen",
     PROFILE = "ProfileScreen",
+    BROWSE_MOVIES = "BrowseMoviesScreen",
 }
 
 export type RootDrawerParamsList = {

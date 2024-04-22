@@ -4,6 +4,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "@screens/home";
 import FavoriteMoviesScreen from "@screens/favorite-movies";
 
+import { colors } from "@themes/index";
+
 import { RootDrawerParamsList, RouteDrawerList } from "@typings/route";
 import { HomeIcon, StarIcon, UserIcon } from "react-native-heroicons/solid";
 import { FavoriteCastScreen } from "@screens/favorite-cast";
@@ -29,7 +31,7 @@ export function DrawerContainer() {
                     drawerIcon: ({ color, focused }) => (
                         <HomeIcon
                             size={20}
-                            color={focused ? "yellow" : color}
+                            color={focused ? colors.primary : color}
                         />
                     ),
                 }}
@@ -45,7 +47,7 @@ export function DrawerContainer() {
                     drawerIcon: ({ color, focused }) => (
                         <StarIcon
                             size={20}
-                            color={focused ? "yellow" : color}
+                            color={focused ? colors.primary : color}
                         />
                     ),
                 }}
@@ -62,7 +64,7 @@ export function DrawerContainer() {
                     drawerIcon: ({ color, focused }) => (
                         <UserIcon
                             size={20}
-                            color={focused ? "yellow" : color}
+                            color={focused ? colors.primary : color}
                         />
                     ),
                 }}
