@@ -36,7 +36,6 @@ export function useProfileScreen() {
     const [state, dispatch] = useReducer(isEditingReducer, initialProfileState);
 
     function handleBackPress() {
-        console.log(isUpdating, "here");
         if (isUpdating) {
             Alert.alert(
                 "Unsaved changes",

@@ -7,7 +7,7 @@ import {
     ScrollView,
     Platform,
 } from "react-native";
-import { ChevronLeftIcon } from "react-native-heroicons/solid";
+import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { PencilIcon } from "react-native-heroicons/outline";
 
