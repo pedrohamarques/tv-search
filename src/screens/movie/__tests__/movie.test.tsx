@@ -27,10 +27,23 @@ const mockHookValues = {
     handleFavoritePress: jest.fn(),
     handleCastPress: jest.fn(),
     isFavorite: true,
-    similarMovies: DUMMY_SIMILAR_MOVIES.results,
-    isLoading: true,
-    movie: DUMMY_MOVIE_DETAILS,
-    cast: DUMMY_MOVIE_CREDITS.cast,
+    state: {
+        movie: {
+            data: DUMMY_MOVIE_DETAILS,
+            isLoading: false,
+            error: "",
+        },
+        cast: {
+            data: DUMMY_MOVIE_CREDITS.cast,
+            isLoading: false,
+            error: "",
+        },
+        similarMovies: {
+            data: DUMMY_SIMILAR_MOVIES.results,
+            isLoading: false,
+            error: "",
+        },
+    },
 };
 
 describe("screens/movie/<MovieScreen />", () => {
@@ -39,24 +52,8 @@ describe("screens/movie/<MovieScreen />", () => {
         mockUseMovieScreen.mockReturnValue(mockHookValues);
     });
 
-    it("renders screen properly when it is loading", () => {
+    it("renders screen properly", () => {
         render(<MovieScreen navigation={mockNavigation} />);
-
-        expect(screen.getByTestId("screens.movie.loading")).toBeTruthy();
-
-        expect(screen.queryByTestId("screens.movie.movie-details")).toBeNull();
-        expect(screen.queryByTestId("screens.movie.cast")).toBeNull();
-        expect(screen.queryByTestId("screens.movie.movie-list")).toBeNull();
-    });
-
-    it("renders screen properly when it is not loading", () => {
-        mockUseMovieScreen.mockReturnValueOnce({
-            ...mockHookValues,
-            isLoading: false,
-        });
-        render(<MovieScreen navigation={mockNavigation} />);
-
-        expect(screen.queryByTestId("screens.movie.loading")).toBeNull();
 
         expect(screen.getByTestId("screens.movie.movie-details")).toBeTruthy();
         expect(screen.getByTestId("screens.movie.cast")).toBeTruthy();

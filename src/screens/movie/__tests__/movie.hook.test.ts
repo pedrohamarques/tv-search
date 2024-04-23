@@ -85,7 +85,17 @@ describe("screens/movie/useMovieScreen", () => {
         });
     });
 
-    it("requests movie details and store them", async () => {
+    it("sets loading to true when movie details is requested", () => {
+        const { result } = renderHook(() => useMovieScreen());
+
+        expect(result.current.state.movie).toEqual({
+            data: null,
+            isLoading: true,
+            error: "",
+        });
+    });
+
+    it("resolves movie details and store them", async () => {
         mockFetchMovieDetails.mockResolvedValueOnce(DUMMY_MOVIE_DETAILS);
         const { result } = renderHook(() => useMovieScreen());
 
@@ -93,7 +103,11 @@ describe("screens/movie/useMovieScreen", () => {
             expect(mockFetchMovieDetails).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.movie).toEqual(DUMMY_MOVIE_DETAILS);
+        expect(result.current.state.movie).toEqual({
+            data: DUMMY_MOVIE_DETAILS,
+            isLoading: false,
+            error: "",
+        });
     });
 
     it("stores nothing when there is no movie details to be requested", async () => {
@@ -104,10 +118,24 @@ describe("screens/movie/useMovieScreen", () => {
             expect(mockFetchMovieDetails).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.movie).toBe(null);
+        expect(result.current.state.movie).toEqual({
+            data: null,
+            isLoading: false,
+            error: "There was some error when fetching data",
+        });
     });
 
-    it("requests similar movies and store them", async () => {
+    it("sets loading to true when similar movies is requested", () => {
+        const { result } = renderHook(() => useMovieScreen());
+
+        expect(result.current.state.similarMovies).toEqual({
+            data: [],
+            isLoading: true,
+            error: "",
+        });
+    });
+
+    it("resolves similar movies and store them", async () => {
         mockFetchSimilarMovies.mockResolvedValueOnce(DUMMY_SIMILAR_MOVIES);
         const { result } = renderHook(() => useMovieScreen());
 
@@ -115,12 +143,14 @@ describe("screens/movie/useMovieScreen", () => {
             expect(mockFetchSimilarMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.similarMovies).toEqual(
-            DUMMY_SIMILAR_MOVIES.results,
-        );
+        expect(result.current.state.similarMovies).toEqual({
+            data: DUMMY_SIMILAR_MOVIES.results,
+            isLoading: false,
+            error: "",
+        });
     });
 
-    it("stores nothing when there is no similar movies to be requested", async () => {
+    it("stores nothing when there is error when fetching data", async () => {
         mockFetchSimilarMovies.mockResolvedValueOnce(null);
         const { result } = renderHook(() => useMovieScreen());
 
@@ -128,10 +158,24 @@ describe("screens/movie/useMovieScreen", () => {
             expect(mockFetchSimilarMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.similarMovies).toEqual([]);
+        expect(result.current.state.similarMovies).toEqual({
+            data: [],
+            isLoading: false,
+            error: "There was some error when fetching data",
+        });
     });
 
-    it("requests movie credits and store them", async () => {
+    it("sets loading to true when movie credits is requested", () => {
+        const { result } = renderHook(() => useMovieScreen());
+
+        expect(result.current.state.cast).toEqual({
+            data: [],
+            isLoading: true,
+            error: "",
+        });
+    });
+
+    it("resolves movie credits and store them", async () => {
         mockFetchMovieCredits.mockResolvedValueOnce(DUMMY_MOVIE_CREDITS);
         const { result } = renderHook(() => useMovieScreen());
 
@@ -139,7 +183,11 @@ describe("screens/movie/useMovieScreen", () => {
             expect(mockFetchMovieCredits).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.cast).toEqual(DUMMY_MOVIE_CREDITS.cast);
+        expect(result.current.state.cast).toEqual({
+            data: DUMMY_MOVIE_CREDITS.cast,
+            isLoading: false,
+            error: "",
+        });
     });
 
     it("stores nothing when there is no movie credits to be requested", async () => {
@@ -150,7 +198,11 @@ describe("screens/movie/useMovieScreen", () => {
             expect(mockFetchMovieCredits).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.cast).toEqual([]);
+        expect(result.current.state.cast).toEqual({
+            data: [],
+            isLoading: false,
+            error: "There was some error when fetching data",
+        });
     });
 
     it("turns isFavorite value to false when handleFavoritePress is called and the movie is already on favorites", async () => {

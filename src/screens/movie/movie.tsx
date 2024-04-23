@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
@@ -7,7 +7,6 @@ import { HeartIcon } from "react-native-heroicons/solid";
 import { styles, theme } from "@themes/index";
 
 import { Cast, MoviesList } from "@components/index";
-import { Loading } from "@components/loading";
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamsList } from "@typings/route";
@@ -33,8 +32,8 @@ export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
                     ]}
                     onPress={handleBackPress}>
                     <ChevronLeftIcon
-                        size='24'
-                        strokeWidth={2.5}
+                        size='28'
+                        strokeWidth='2.5'
                         color='white'
                     />
                 </TouchableOpacity>
@@ -54,42 +53,39 @@ export function MovieScreen({ navigation }: MovieScreenNavigationProps) {
         handleFavoritePress,
         handleCastPress,
         isFavorite,
-        similarMovies,
-        isLoading,
-        movie,
-        cast,
+        state,
     } = useMovieScreen();
 
     return (
         <ScrollView
             contentContainerStyle={{ paddingBottom: 20 }}
             className='flex-1 bg-neutral-900'>
-            {isLoading ? (
-                <View className='mt-24 pt-24'>
-                    <Loading testID='screens.movie.loading' />
-                </View>
-            ) : (
-                movie && (
-                    <>
-                        <MovieDetails
-                            movie={movie}
-                            testID='screens.movie.movie-details'
-                        />
+            {state.movie.data && (
+                <>
+                    <MovieDetails
+                        movie={state.movie.data}
+                        testID='screens.movie.movie-details'
+                        isLoading={state.movie.isLoading}
+                        hasError={!!state.movie.error}
+                    />
 
-                        <Cast
-                            cast={cast}
-                            handleCastPress={handleCastPress}
-                            testID='screens.movie.cast'
-                        />
+                    <Cast
+                        cast={state.cast.data!}
+                        handleCastPress={handleCastPress}
+                        testID='screens.movie.cast'
+                        hasError={!!state.cast.error}
+                        isLoading={state.cast.isLoading}
+                    />
 
-                        <MoviesList
-                            title='Similar Movies'
-                            data={similarMovies}
-                            hideSeeAll
-                            testID='screens.movie.movie-list'
-                        />
-                    </>
-                )
+                    <MoviesList
+                        title='Similar Movies'
+                        data={state.similarMovies.data!}
+                        hideSeeAll
+                        testID='screens.movie.movie-list'
+                        isLoading={state.similarMovies.isLoading}
+                        hasError={!!state.similarMovies.error}
+                    />
+                </>
             )}
         </ScrollView>
     );

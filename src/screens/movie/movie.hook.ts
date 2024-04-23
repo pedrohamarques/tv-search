@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
     CompositeNavigationProp,
     RouteProp,
@@ -23,17 +23,36 @@ import {
 } from "@typings/route";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import {
-    CastType,
-    MovieDetailsResponse,
-    SimilarMovieResult,
-} from "@typings/data";
+import { CastType } from "@typings/data";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
+import {
+    FetchActionKind,
+    FetchState,
+    fetchMoviesScreenReducer,
+} from "./reducer";
 
 type ManageMovieScreenNavigationProps = CompositeNavigationProp<
     DrawerNavigationProp<RootDrawerParamsList, RouteDrawerList.FAVORITE_MOVIES>,
     NativeStackNavigationProp<RootStackParamsList>
 >;
+
+const screenState: FetchState = {
+    cast: {
+        data: [],
+        error: "",
+        isLoading: false,
+    },
+    similarMovies: {
+        data: [],
+        error: "",
+        isLoading: false,
+    },
+    movie: {
+        data: null,
+        error: "",
+        isLoading: false,
+    },
+};
 
 export function useMovieScreen() {
     const route =
@@ -48,17 +67,16 @@ export function useMovieScreen() {
     const isFavoriteMovie = favoriteMoviesIds.includes(movieId);
 
     const [isFavorite, setIsFavorite] = useState(isFavoriteMovie);
-    const [cast, setCast] = useState<CastType[]>([]);
-    const [similarMovies, setSimilarMovies] = useState<SimilarMovieResult[]>(
-        [],
-    );
-    const [isLoading, setIsLoading] = useState(true);
-    const [movie, setMovie] = useState<MovieDetailsResponse | null>(null);
 
     const { fetchMovieDetails, fetchSimilarMovies, fetchMovieCredits } =
         useRequests();
 
     const navigation = useNavigation<ManageMovieScreenNavigationProps>();
+
+    const [state, reducerDispatch] = useReducer(
+        fetchMoviesScreenReducer,
+        screenState,
+    );
 
     function handleBackPress() {
         navigation.goBack();
@@ -70,23 +88,41 @@ export function useMovieScreen() {
     }
 
     const getMovieCredits = async () => {
+        reducerDispatch({ type: FetchActionKind.REQUEST_CAST });
         const data = await fetchMovieCredits(movieId);
         if (data && data.cast) {
-            setCast(data.cast);
+            reducerDispatch({
+                type: FetchActionKind.RESOLVE_CAST,
+                payload: data.cast,
+            });
+        } else {
+            reducerDispatch({ type: FetchActionKind.ERROR_CAST });
         }
     };
 
     const getMovieDetails = async () => {
+        reducerDispatch({ type: FetchActionKind.REQUEST_MOVIE });
         const data = await fetchMovieDetails(movieId);
         if (data) {
-            setMovie(data);
+            reducerDispatch({
+                type: FetchActionKind.RESOLVE_MOVIE,
+                payload: data,
+            });
+        } else {
+            reducerDispatch({ type: FetchActionKind.ERROR_MOVIE });
         }
     };
 
     const getSimilarMovies = async () => {
+        reducerDispatch({ type: FetchActionKind.REQUEST_SIMILAR_MOVIES });
         const data = await fetchSimilarMovies(movieId);
         if (data && data.results) {
-            setSimilarMovies(data.results);
+            reducerDispatch({
+                type: FetchActionKind.RESOLVE_SIMILAR_MOVIES,
+                payload: data.results,
+            });
+        } else {
+            reducerDispatch({ type: FetchActionKind.ERROR_SIMILAR_MOVIES });
         }
     };
 
@@ -94,17 +130,17 @@ export function useMovieScreen() {
         getMovieDetails();
         getSimilarMovies();
         getMovieCredits();
-        setIsLoading(false);
     }, []);
 
     function handleFavoritePress() {
-        if (movie) {
+        const { data } = state.movie;
+        if (data) {
             if (!isFavorite) {
                 dispatch(
                     addFavoriteMovie({
-                        id: movie.id,
-                        imagePath: movie.poster_path,
-                        title: movie.title,
+                        id: data.id,
+                        imagePath: data.poster_path,
+                        title: data.title,
                     }),
                 );
                 Toast.show({
@@ -117,9 +153,9 @@ export function useMovieScreen() {
             } else {
                 dispatch(
                     removeFavoriteMovie({
-                        id: movie.id,
-                        imagePath: movie.poster_path,
-                        title: movie.title,
+                        id: data.id,
+                        imagePath: data.poster_path,
+                        title: data.title,
                     }),
                 );
                 Toast.show({
@@ -142,9 +178,6 @@ export function useMovieScreen() {
         handleFavoritePress,
         handleCastPress,
         isFavorite,
-        similarMovies,
-        isLoading,
-        movie,
-        cast,
+        state,
     };
 }
