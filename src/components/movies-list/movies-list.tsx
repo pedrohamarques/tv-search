@@ -28,7 +28,7 @@ type MoviesListProps = {
     testID?: string;
     isLoading?: boolean;
     hasError: boolean;
-    handleSeeAllPress: () => void;
+    handleSeeAllPress?: () => void;
 };
 
 export function MoviesList({
