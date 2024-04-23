@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import {
     Dimensions,
     Image,
@@ -10,11 +10,32 @@ import {
 
 import { imageURI } from "@constants/url";
 
+import { styles } from "@themes/index";
+
 import { useFavoriteCastScreen } from "./favorite-cast.hook";
+
+import type { DrawerNavigationProp } from "@react-navigation/drawer";
+import type { RootDrawerParamsList } from "@typings/route";
+
+type FavoriteCastScreenNavigationProps = {
+    navigation: Pick<DrawerNavigationProp<RootDrawerParamsList>, "setOptions">;
+};
 
 const { width, height } = Dimensions.get("window");
 
-export function FavoriteCastScreen() {
+export function FavoriteCastScreen({
+    navigation,
+}: FavoriteCastScreenNavigationProps) {
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => (
+                <Text className='text-white text-3xl font-bold'>
+                    <Text style={styles.text}>F</Text>avorite{" "}
+                    <Text style={styles.text}>C</Text>ast
+                </Text>
+            ),
+        });
+    }, []);
     const { cast, handleCastPress } = useFavoriteCastScreen();
     return (
         <View className='bg-neutral-800 flex-1 justify-center items-center px-4'>
@@ -22,7 +43,7 @@ export function FavoriteCastScreen() {
                 <>
                     <View className='w-full mt-4'>
                         <Text className='text-white font-semibold ml-2 mt-2'>
-                            Favorite Cast ({cast.length}){" "}
+                            Results ({cast.length}){" "}
                         </Text>
                     </View>
                     <ScrollView

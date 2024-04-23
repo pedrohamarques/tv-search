@@ -4,6 +4,14 @@ import { fireEvent, render, screen } from "@testing-library/react-native";
 import { FavoriteCastScreen } from "../favorite-cast";
 import { DUMMY_PERSON_DETAILS } from "@constants/data";
 
+const mockNavigation = {
+    setOptions: jest.fn(),
+};
+
+jest.mock("@react-navigation/native", () => ({
+    useNavigation: jest.fn(),
+}));
+
 const mockHookValues = {
     handleCastPress: jest.fn(),
     cast: [DUMMY_PERSON_DETAILS],
@@ -22,9 +30,9 @@ describe("screens/favorite-movies/<FavoriteMoviesScreen />", () => {
     });
 
     it("renders screen properly when there is favorited cast", () => {
-        render(<FavoriteCastScreen />);
+        render(<FavoriteCastScreen navigation={mockNavigation} />);
 
-        expect(screen.getByText("Favorite Cast (1)")).toBeTruthy();
+        expect(screen.getByText("Results (1)")).toBeTruthy();
 
         expect(
             screen.getByTestId("screens.favorite-cast.image-0"),
@@ -47,9 +55,9 @@ describe("screens/favorite-movies/<FavoriteMoviesScreen />", () => {
             ...mockHookValues,
             cast: [],
         });
-        render(<FavoriteCastScreen />);
+        render(<FavoriteCastScreen navigation={mockNavigation} />);
 
-        expect(screen.queryByText("Favorite Casrt (1)")).toBeNull();
+        expect(screen.queryByText("Results (1)")).toBeNull();
 
         expect(
             screen.queryByTestId("screens.favorite-cast.image-0"),
@@ -66,7 +74,7 @@ describe("screens/favorite-movies/<FavoriteMoviesScreen />", () => {
     });
 
     it("calls handleCastPress when movie is pressed", () => {
-        render(<FavoriteCastScreen />);
+        render(<FavoriteCastScreen navigation={mockNavigation} />);
 
         fireEvent.press(screen.getByTestId("screens.favorite-cast.image-0"));
 
