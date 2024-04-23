@@ -31,7 +31,7 @@ describe("screens/favorite-movies/<FavoriteMoviesScreen />", () => {
     it("renders screen properly when there is favorited movies", () => {
         render(<FavoriteMoviesScreen navigation={mockNavigation} />);
 
-        expect(screen.getByText("Favorite Movies (2)")).toBeTruthy();
+        expect(screen.getByText("Results (2)")).toBeTruthy();
 
         expect(
             screen.getByTestId("screens.favorite-movies.image-0"),
@@ -59,7 +59,7 @@ describe("screens/favorite-movies/<FavoriteMoviesScreen />", () => {
         });
         render(<FavoriteMoviesScreen navigation={mockNavigation} />);
 
-        expect(screen.queryByText("Favorite Movies (2)")).toBeNull();
+        expect(screen.queryByText("Results (2)")).toBeNull();
 
         expect(
             screen.queryByTestId("screens.favorite-movies.image-0"),

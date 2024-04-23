@@ -42,7 +42,7 @@ export function FavoriteMoviesScreen({
                 <>
                     <View className='w-full mt-4'>
                         <Text className='text-white font-semibold ml-2 mt-4'>
-                            Favorite Movies ({movies.length}){" "}
+                            Results ({movies.length}){" "}
                         </Text>
                     </View>
                     <ScrollView
