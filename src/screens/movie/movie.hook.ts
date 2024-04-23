@@ -103,7 +103,7 @@ export function useMovieScreen() {
     const getMovieDetails = async () => {
         reducerDispatch({ type: FetchActionKind.REQUEST_MOVIE });
         const data = await fetchMovieDetails(movieId);
-        if (data) {
+        if (data && data.title) {
             reducerDispatch({
                 type: FetchActionKind.RESOLVE_MOVIE,
                 payload: data,
