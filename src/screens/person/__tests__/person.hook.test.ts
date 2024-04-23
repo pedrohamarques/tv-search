@@ -64,7 +64,17 @@ describe("screens/person/usePersonScreen", () => {
         expect(mockGoBack).toHaveBeenCalledTimes(1);
     });
 
-    it("requests movie credits and store them", async () => {
+    it("sets loading to true when movie credits is requested", () => {
+        const { result } = renderHook(() => usePersonScreen());
+
+        expect(result.current.state.personDetails).toEqual({
+            data: null,
+            isLoading: true,
+            error: "",
+        });
+    });
+
+    it("resolves movie credits and store them", async () => {
         mockFetchPersonDetails.mockResolvedValueOnce(DUMMY_PERSON_DETAILS);
         const { result } = renderHook(() => usePersonScreen());
 
@@ -72,7 +82,11 @@ describe("screens/person/usePersonScreen", () => {
             expect(mockFetchPersonDetails).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.personDetails).toEqual(DUMMY_PERSON_DETAILS);
+        expect(result.current.state.personDetails).toEqual({
+            data: DUMMY_PERSON_DETAILS,
+            isLoading: false,
+            error: "",
+        });
     });
 
     it("stores nothing when there is no movie credits to be requested", async () => {
@@ -83,10 +97,24 @@ describe("screens/person/usePersonScreen", () => {
             expect(mockFetchPersonDetails).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.personDetails).toBeNull();
+        expect(result.current.state.personDetails).toEqual({
+            data: null,
+            isLoading: false,
+            error: "There was some error when fetching data",
+        });
     });
 
-    it("requests movie credits and store them", async () => {
+    it("sets loading to true when person movies is requested", () => {
+        const { result } = renderHook(() => usePersonScreen());
+
+        expect(result.current.state.personMovies).toEqual({
+            data: [],
+            isLoading: true,
+            error: "",
+        });
+    });
+
+    it("resolves person movies and store them", async () => {
         mockFetchPersonMovies.mockResolvedValueOnce(DUMMY_PERSON_MOVIES);
         const { result } = renderHook(() => usePersonScreen());
 
@@ -94,10 +122,14 @@ describe("screens/person/usePersonScreen", () => {
             expect(mockFetchPersonMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.personMovies).toEqual(DUMMY_PERSON_MOVIES.cast);
+        expect(result.current.state.personMovies).toEqual({
+            data: DUMMY_PERSON_MOVIES.cast,
+            isLoading: false,
+            error: "",
+        });
     });
 
-    it("stores nothing when there is no movie credits to be requested", async () => {
+    it("stores nothing when there is no person movies to be requested", async () => {
         mockFetchPersonMovies.mockResolvedValueOnce(null);
         const { result } = renderHook(() => usePersonScreen());
 
@@ -105,7 +137,11 @@ describe("screens/person/usePersonScreen", () => {
             expect(mockFetchPersonMovies).toHaveBeenCalledTimes(1),
         );
 
-        expect(result.current.personMovies).toEqual([]);
+        expect(result.current.state.personMovies).toEqual({
+            data: [],
+            isLoading: false,
+            error: "There was some error when fetching data",
+        });
     });
 
     it("turns isFavorite value to false when handleFavoritePress is called and the cast is already on favorites", async () => {

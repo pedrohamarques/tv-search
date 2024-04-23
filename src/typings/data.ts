@@ -208,7 +208,7 @@ export type CastDetails = {
     name: string;
     place_of_birth: string;
     popularity: number;
-    profile_path: string;
+    profile_path: string | null;
 };
 
 export type CastMoviesResponse = {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
     CompositeNavigationProp,
     RouteProp,
@@ -23,13 +23,30 @@ import {
     RouteDrawerList,
     RootDrawerParamsList,
 } from "@typings/route";
-import type { CastDetails, CastMovies } from "@typings/data";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
+import {
+    FetchActionKind,
+    fetchCastScreenReducer,
+    type FetchState,
+} from "./reducer";
 
 type ManagePersonScreenNavigationProps = CompositeNavigationProp<
     DrawerNavigationProp<RootDrawerParamsList, RouteDrawerList.FAVORITE_CAST>,
     NativeStackNavigationProp<RootStackParamsList>
 >;
+
+const screenState: FetchState = {
+    personDetails: {
+        data: null,
+        error: "",
+        isLoading: false,
+    },
+    personMovies: {
+        data: [],
+        error: "",
+        isLoading: false,
+    },
+};
 
 export function usePersonScreen() {
     const route =
@@ -44,15 +61,15 @@ export function usePersonScreen() {
     const isFavoriteCast = favoriteCastIds.includes(castId);
 
     const [isFavorite, setIsFavorite] = useState(isFavoriteCast);
-    const [isLoading, setIsLoading] = useState(true);
-    const [personMovies, setPersonMovies] = useState<CastMovies[]>([]);
-    const [personDetails, setPersonDetails] = useState<CastDetails | null>(
-        null,
-    );
 
     const { fetchPersonDetails, fetchPersonMovies } = useRequests();
 
     const navigation = useNavigation<ManagePersonScreenNavigationProps>();
+
+    const [state, reducerDispatch] = useReducer(
+        fetchCastScreenReducer,
+        screenState,
+    );
 
     function handleToastPress() {
         navigation.navigate(RouteDrawerList.FAVORITE_CAST);
@@ -60,13 +77,14 @@ export function usePersonScreen() {
     }
 
     function handleFavoritePress() {
-        if (personDetails) {
+        const { data } = state.personDetails;
+        if (data) {
             if (!isFavorite) {
                 dispatch(
                     addFavoriteCast({
-                        id: personDetails.id,
-                        imagePath: personDetails.profile_path,
-                        name: personDetails.name,
+                        id: data.id,
+                        imagePath: data.profile_path!,
+                        name: data.name,
                     }),
                 );
                 Toast.show({
@@ -79,9 +97,9 @@ export function usePersonScreen() {
             } else {
                 dispatch(
                     removeFavoriteCast({
-                        id: personDetails.id,
-                        imagePath: personDetails.profile_path,
-                        name: personDetails.name,
+                        id: data.id,
+                        imagePath: data.profile_path!,
+                        name: data.name,
                     }),
                 );
                 Toast.show({
@@ -100,31 +118,40 @@ export function usePersonScreen() {
     }
 
     const getCastDetails = async () => {
+        reducerDispatch({ type: FetchActionKind.REQUEST_PERSON_DETAILS });
         const data = await fetchPersonDetails(castId);
         if (data) {
-            setPersonDetails(data);
+            reducerDispatch({
+                type: FetchActionKind.RESOLVE_PERSON_DETAILS,
+                payload: data,
+            });
+        } else {
+            reducerDispatch({ type: FetchActionKind.ERROR_PERSON_DETAILS });
         }
     };
 
     const getCastMovies = async () => {
+        reducerDispatch({ type: FetchActionKind.REQUEST_PERSON_MOVIES });
         const data = await fetchPersonMovies(castId);
         if (data && data.cast) {
-            setPersonMovies(data.cast);
+            reducerDispatch({
+                type: FetchActionKind.RESOLVE_PERSON_MOVIES,
+                payload: data.cast,
+            });
+        } else {
+            reducerDispatch({ type: FetchActionKind.ERROR_PERSON_MOVIES });
         }
     };
 
     useEffect(() => {
         getCastDetails();
         getCastMovies();
-        setIsLoading(false);
     }, [castId]);
 
     return {
         handleFavoritePress,
         handleBackPress,
         isFavorite,
-        isLoading,
-        personMovies,
-        personDetails,
+        state,
     };
 }
