@@ -37,7 +37,7 @@ export function MovieDetails({
                         again.
                     </Text>
                 </View>
-            ) : (
+            ) : movie ? (
                 <>
                     <View testID={testID}>
                         <Image
@@ -77,7 +77,7 @@ export function MovieDetails({
                         </Text>
                     </View>
                 </>
-            )}
+            ) : null}
         </>
     );
 }
