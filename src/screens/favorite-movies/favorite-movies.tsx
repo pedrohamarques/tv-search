@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import {
     Image,
     ScrollView,
@@ -8,12 +8,33 @@ import {
     Dimensions,
 } from "react-native";
 
-import { useFavoriteMoviesScreen } from "./favorite-movies.hook";
 import { imageURI } from "@constants/url";
+
+import { styles } from "@themes/index";
+
+import { useFavoriteMoviesScreen } from "./favorite-movies.hook";
+import type { DrawerNavigationProp } from "@react-navigation/drawer";
+import type { RootDrawerParamsList } from "@typings/route";
 
 const { width, height } = Dimensions.get("window");
 
-export function FavoriteMoviesScreen() {
+type FavoriteMoviesScreenNavigationProps = {
+    navigation: Pick<DrawerNavigationProp<RootDrawerParamsList>, "setOptions">;
+};
+
+export function FavoriteMoviesScreen({
+    navigation,
+}: FavoriteMoviesScreenNavigationProps) {
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => (
+                <Text className='text-white text-3xl font-bold'>
+                    <Text style={styles.text}>F</Text>avorite{" "}
+                    <Text style={styles.text}>M</Text>ovies
+                </Text>
+            ),
+        });
+    }, []);
     const { movies, handleMoviePress } = useFavoriteMoviesScreen();
     return (
         <View className='bg-neutral-800 flex-1 justify-center items-center px-4'>

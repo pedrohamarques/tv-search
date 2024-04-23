@@ -4,6 +4,13 @@ import { fireEvent, render, screen } from "@testing-library/react-native";
 import { FavoriteMoviesScreen } from "../favorite-movies";
 import { DUMMY_MOVIES } from "@constants/data";
 
+const mockNavigation = {
+    setOptions: jest.fn(),
+};
+
+jest.mock("@react-navigation/native", () => ({
+    useNavigation: jest.fn(),
+}));
 const mockHookValues = {
     handleMoviePress: jest.fn(),
     movies: DUMMY_MOVIES,
@@ -22,7 +29,7 @@ describe("screens/favorite-movies/<FavoriteMoviesScreen />", () => {
     });
 
     it("renders screen properly when there is favorited movies", () => {
-        render(<FavoriteMoviesScreen />);
+        render(<FavoriteMoviesScreen navigation={mockNavigation} />);
 
         expect(screen.getByText("Favorite Movies (2)")).toBeTruthy();
 
@@ -50,7 +57,7 @@ describe("screens/favorite-movies/<FavoriteMoviesScreen />", () => {
             ...mockHookValues,
             movies: [],
         });
-        render(<FavoriteMoviesScreen />);
+        render(<FavoriteMoviesScreen navigation={mockNavigation} />);
 
         expect(screen.queryByText("Favorite Movies (2)")).toBeNull();
 
@@ -74,7 +81,7 @@ describe("screens/favorite-movies/<FavoriteMoviesScreen />", () => {
     });
 
     it("calls handleMoviePress when movie is pressed", () => {
-        render(<FavoriteMoviesScreen />);
+        render(<FavoriteMoviesScreen navigation={mockNavigation} />);
 
         fireEvent.press(screen.getByTestId("screens.favorite-movies.image-0"));
 
