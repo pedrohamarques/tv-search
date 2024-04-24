@@ -11,17 +11,24 @@ import { persistor, store } from "@stores/store";
 import { toastConfig } from "@components/toast";
 
 import { RootNavigation } from "@routes/stack-native";
+import { PublicRoutes } from "@routes/public-stack";
 
 import "./global.css";
 
 export default function App() {
+    const isAuthenticated = false;
+
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <StatusBar style='light' />
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <NavigationContainer>
-                        <RootNavigation />
+                        {!isAuthenticated ? (
+                            <PublicRoutes />
+                        ) : (
+                            <RootNavigation />
+                        )}
                         <Toast config={toastConfig} />
                     </NavigationContainer>
                 </PersistGate>
