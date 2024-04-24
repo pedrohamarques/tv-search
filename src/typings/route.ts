@@ -1,5 +1,30 @@
 import { TopRatedMovieResults, UpcomingMovieResults } from "./data";
 
+export enum RouteDrawerList {
+    HOME = "HomeScreen",
+    FAVORITE_MOVIES = "FavoriteMoviesScreen",
+    FAVORITE_CAST = "FavoriteCastScreen",
+}
+
+export enum RouteStackList {
+    DRAWER = "DrawerContainer",
+    MOVIE = "MovieScreen",
+    PERSON = "PersonScreen",
+    SEARCH = "SearchScreen",
+    PROFILE = "ProfileScreen",
+    BROWSE_MOVIES = "BrowseMoviesScreen",
+}
+
+export enum PublicStackList {
+    WELCOME = "WelcomeScreen",
+}
+
+export type RootDrawerParamsList = {
+    [RouteDrawerList.HOME]: undefined;
+    [RouteDrawerList.FAVORITE_MOVIES]: undefined;
+    [RouteDrawerList.FAVORITE_CAST]: undefined;
+};
+
 export type RootStackParamsList = {
     [RouteStackList.DRAWER]: undefined;
     [RouteStackList.MOVIE]: {
@@ -16,23 +41,6 @@ export type RootStackParamsList = {
     };
 };
 
-export enum RouteStackList {
-    DRAWER = "DrawerContainer",
-    MOVIE = "MovieScreen",
-    PERSON = "PersonScreen",
-    SEARCH = "SearchScreen",
-    PROFILE = "ProfileScreen",
-    BROWSE_MOVIES = "BrowseMoviesScreen",
-}
-
-export type RootDrawerParamsList = {
-    [RouteDrawerList.HOME]: undefined;
-    [RouteDrawerList.FAVORITE_MOVIES]: undefined;
-    [RouteDrawerList.FAVORITE_CAST]: undefined;
+export type PublicStackParamsList = {
+    [PublicStackList.WELCOME]: undefined;
 };
-
-export enum RouteDrawerList {
-    HOME = "HomeScreen",
-    FAVORITE_MOVIES = "FavoriteMoviesScreen",
-    FAVORITE_CAST = "FavoriteCastScreen",
-}
