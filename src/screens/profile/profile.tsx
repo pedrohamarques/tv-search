@@ -76,11 +76,15 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                     <Avatar
                         onAvatarPress={handlePickImage}
                         image={profileState.avatar.data}
+                        testID='screens.profile.avatar'
                     />
                 </View>
 
                 <View className='mt-4 px-4'>
-                    <Input title='Name' isEditing={updatingName}>
+                    <Input
+                        title='Name'
+                        isEditing={updatingName}
+                        testID='screens.profile.input-name'>
                         <FontAwesome6
                             name='user-circle'
                             size={20}
@@ -96,17 +100,19 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                         />
                         <TouchableOpacity
                             onPress={handleEditingNamePress}
-                            style={{ paddingRight: 4 }}>
+                            style={{ paddingRight: 4 }}
+                            testID='screens.profile.input.edit-button'>
                             {!updatingName && (
                                 <PencilIcon
                                     size={20}
                                     strokeWidth={2.5}
                                     color={styles.background.backgroundColor}
+                                    testID='screens.profile.input.pencil-icon'
                                 />
                             )}
                         </TouchableOpacity>
                     </Input>
-                    <Input title='E-mail'>
+                    <Input title='E-mail' testID='screens.profile.input-email'>
                         <FontAwesome6
                             name='envelope-open'
                             size={20}
@@ -125,6 +131,7 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                         onItemPress={handleChooseCountry}
                         country={profileState.country.data}
                         isEditing={profileState.country.isEditing}
+                        testID='screens.profile.countries-dropdown'
                     />
                 </View>
 
@@ -132,6 +139,7 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                     <ConfirmButton
                         onPress={handleUpdateProfile}
                         disabled={!isUpdating}
+                        testID='screens.profile.confirm-button'
                     />
                 </View>
             </ScrollView>

@@ -112,6 +112,15 @@ export function isEditingReducer(
                 },
             };
         }
+        case ActionKind.SAVING_COUNTRY: {
+            return {
+                ...state,
+                country: {
+                    ...state.country,
+                    data: action.payload,
+                },
+            };
+        }
         default:
             return state;
     }
