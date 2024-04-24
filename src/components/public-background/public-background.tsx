@@ -12,7 +12,7 @@ export function PublicBackground({
     children,
 }: PublicBackgroundProps) {
     return (
-        <View testID={testID}>
+        <View testID={testID} className='flex-1'>
             <StatusBar barStyle={"light-content"} />
             <LinearGradient
                 style={{ flex: 1 }}
