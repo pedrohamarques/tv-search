@@ -1,44 +1,44 @@
 version: v1.0
 name: Initial Pipeline
 agent:
-  machine:
-    type: e1-standard-2
-    os_image: ubuntu2004
+    machine:
+        type: e1-standard-2
+        os_image: ubuntu2004
 blocks:
-  - name: Install Dependencies
-    task:
-      jobs:
-        - name: npm install and cache
-          commands:
-            - checkout
-            - cache restore
-            - npm install
-            - cache store
-  - name: Tests
-    task:
-      prologue:
-        commands:
-          - checkout
-      jobs:
-        - name: Unit  and Integration Tests (1/3)
-          commands:
-            - echo "Unit tests 1/3"
-            - cache restore
-            - npm test -- --shard=1/3
-        - name: Unit and Integration Tests (2/3)
-          commands:
-            - echo "Unit tests 2/3"
-            - cache restore
-            - npm test -- --shard=2/3
-        - name: Unit and Integration Tests (3/3)
-          commands:
-            - echo "Unit tests 3/3"
-            - cache restore
-            - npm test -- --shard=3/3
+    - name: Install Dependencies
+      task:
+          jobs:
+              - name: npm install and cache
+                commands:
+                    - checkout
+                    - cache restore
+                    - npm install
+                    - cache store
+    - name: Tests
+      task:
+          prologue:
+              commands:
+                  - checkout
+          jobs:
+              - name: Unit  and Integration Tests (1/3)
+                commands:
+                    - echo "Unit tests 1/3"
+                    - cache restore
+                    - npm test -- --shard=1/3
+              - name: Unit and Integration Tests (2/3)
+                commands:
+                    - echo "Unit tests 2/3"
+                    - cache restore
+                    - npm test -- --shard=2/3
+              - name: Unit and Integration Tests (3/3)
+                commands:
+                    - echo "Unit tests 3/3"
+                    - cache restore
+                    - npm test -- --shard=3/3
 promotions:
-  - name: Staging Deployment
-    pipeline_file: pipeline_2.yml
-    auto_promote:
-      when: branch = 'main' AND result = 'passed'
-  - name: Production Deployment
-    pipeline_file: pipeline_3.yml
+    - name: Staging Deployment
+      pipeline_file: pipeline_2.yml
+      auto_promote:
+          when: branch = 'main' AND result = 'passed'
+    - name: Production Deployment
+      pipeline_file: pipeline_3.yml

@@ -6,3 +6,4 @@ bracketSpacing: true
 bracketSameLine: true
 jsxSingleQuote: true
 arrowParens: "avoid"
+printWidth: 80
