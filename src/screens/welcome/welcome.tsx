@@ -48,7 +48,7 @@ export function WelcomeScreen() {
                 <TouchableWithoutFeedback
                     onPress={handleSignInPress}
                     className='opacity-0'>
-                    <Text className='font-semibold underline underline-offset-2 my-10'>
+                    <Text className='font-semibold underline my-10'>
                         Already has an account? Sign In!
                     </Text>
                 </TouchableWithoutFeedback>
