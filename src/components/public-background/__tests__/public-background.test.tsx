@@ -1,7 +1,8 @@
-import { render, screen } from "@testing-library/react-native";
 import React from "react";
-import { PublicBackground } from "../public-background";
 import { Text } from "react-native";
+import { render, screen } from "@testing-library/react-native";
+
+import { PublicBackground } from "../public-background";
 
 describe("components/public-background/<PublicBackground />", () => {
     beforeEach(() => {
@@ -20,7 +21,7 @@ describe("components/public-background/<PublicBackground />", () => {
             screen.getByTestId("components.public-background.image-background"),
         ).toBeTruthy();
         expect(
-          screen.getByTestId("components.public-background.linear-gradient"),
-      ).toBeTruthy();
+            screen.getByTestId("components.public-background.linear-gradient"),
+        ).toBeTruthy();
     });
 });
