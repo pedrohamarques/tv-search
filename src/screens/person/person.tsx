@@ -3,7 +3,7 @@ import { ScrollView, TouchableOpacity } from "react-native";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
 
-import { styles, theme } from "@themes/index";
+import { colors, theme } from "@themes/index";
 
 import { MoviesList } from "@components/index";
 
@@ -25,16 +25,11 @@ export function PersonScreen({ navigation }: PersonScreenNavigationProps) {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
-                <TouchableOpacity
-                    style={[
-                        styles.background,
-                        { padding: 1, borderRadius: 12 },
-                    ]}
-                    onPress={handleBackPress}>
+                <TouchableOpacity onPress={handleBackPress}>
                     <ChevronLeftIcon
                         size='28'
                         strokeWidth={2.5}
-                        color='white'
+                        color={colors.primary}
                     />
                 </TouchableOpacity>
             ),
