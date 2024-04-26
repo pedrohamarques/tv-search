@@ -25,9 +25,28 @@ jest.mock("@services/use-request", () => ({
     }),
 }));
 
+const mockAppState = {
+    favorites: {
+        movies: [],
+        cast: [],
+    },
+    authentication: {
+        email: "john@test.com",
+        password: "12345678",
+        isAuthenticated: true,
+    },
+};
+
+const mockUseSelector = jest.fn();
+
+jest.mock("react-redux", () => ({
+    useSelector: (callback: () => void) => mockUseSelector(callback),
+}));
+
 describe("screens/home/useHomeScreen", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        mockUseSelector.mockImplementation(callback => callback(mockAppState));
     });
 
     it("navigates to search screen when handleSearchPress is called", () => {
@@ -37,6 +56,12 @@ describe("screens/home/useHomeScreen", () => {
 
         expect(mockNavigate).toHaveBeenCalledTimes(1);
         expect(mockNavigate).toHaveBeenCalledWith(RouteStackList.SEARCH);
+    });
+
+    it("returns the email from selector", () => {
+        const { result } = renderHook(() => useHomeScreen());
+
+        expect(result.current.email).toBe("john@test.com");
     });
 
     it("requests trending movies and store them", async () => {

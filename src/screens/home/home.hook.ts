@@ -6,6 +6,9 @@ import {
 
 import { useRequests } from "@services/use-request";
 
+import { useAppSelector } from "@stores/hooks";
+import { authenticationSelector } from "@stores/authenticationSlice";
+
 import {
     type RootDrawerParamsList,
     type RootStackParamsList,
@@ -45,6 +48,8 @@ export function useHomeScreen() {
         useRequests();
 
     const navigation = useNavigation<ManageHomeScreenNavigationProps>();
+
+    const { email } = useAppSelector(authenticationSelector);
 
     function handleSearchPress() {
         navigation.navigate(RouteStackList.SEARCH);
@@ -116,5 +121,6 @@ export function useHomeScreen() {
         handleProfilePress,
         handleSeeAllPress,
         movies: state,
+        email,
     };
 }

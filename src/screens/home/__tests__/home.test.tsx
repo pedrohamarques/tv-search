@@ -35,6 +35,7 @@ const mockHookValues = {
     handleSearchPress: jest.fn(),
     handleProfilePress: jest.fn(),
     handleSeeAllPress: jest.fn(),
+    email: "john@test.com",
 };
 
 describe("screens/home/<Home />", () => {
@@ -54,13 +55,13 @@ describe("screens/home/<Home />", () => {
             screen.getByTestId("screens.home.movies-list.top-rated"),
         ).toBeTruthy();
 
-        expect(screen.getByText("Hello, Pedro")).toBeTruthy();
+        expect(screen.getByText("Hello, john@test.com")).toBeTruthy();
     });
 
     it("calls handleProfilePress when `Hello, user` is pressed", () => {
         render(<HomeScreen navigation={mockNavigation} />);
 
-        fireEvent.press(screen.getByText("Hello, Pedro"));
+        fireEvent.press(screen.getByText("Hello, john@test.com"));
 
         expect(mockHookValues.handleProfilePress).toHaveBeenCalledTimes(1);
     });

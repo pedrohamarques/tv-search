@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 
-import { styles } from "@themes/index";
+import { colors, styles } from "@themes/index";
 
 import { MoviesList, TrendingMovies } from "@components/index";
 
@@ -30,8 +30,8 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
                     <TouchableOpacity onPress={handleSearchPress}>
                         <MagnifyingGlassIcon
                             size='24'
-                            strokeWidth={2}
-                            color='white'
+                            strokeWidth={2.5}
+                            color={colors.primary}
                         />
                     </TouchableOpacity>
                 </View>
@@ -43,8 +43,13 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
             ),
         });
     }, [navigation]);
-    const { movies, handleSearchPress, handleProfilePress, handleSeeAllPress } =
-        useHomeScreen();
+    const {
+        movies,
+        email,
+        handleSearchPress,
+        handleProfilePress,
+        handleSeeAllPress,
+    } = useHomeScreen();
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}
@@ -52,7 +57,9 @@ export function HomeScreen({ navigation }: HomeScreenNavigationProps) {
             className='pt-4 bg-neutral-800 '>
             <View className='flex-row items-center justify-end w-full pr-4 mb-4'>
                 <TouchableOpacity onPress={handleProfilePress}>
-                    <Text className='text-white text-xl'>Hello, Pedro</Text>
+                    <Text className='text-white text-xl underline font-semibold'>
+                        Hello, {email}
+                    </Text>
                 </TouchableOpacity>
             </View>
 
