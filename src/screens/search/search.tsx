@@ -17,7 +17,7 @@ import { Loading } from "@components/loading";
 
 import { imageURI } from "@constants/url";
 
-import { styles } from "@themes/index";
+import { colors, styles } from "@themes/index";
 
 import { useSearchScreen } from "./search.hook";
 
@@ -37,17 +37,11 @@ export function SearchScreen({ navigation }: SearchScreenNavigationProps) {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
-                <TouchableOpacity
-                    onPress={handleClosePress}
-                    style={[
-                        styles.background,
-                        { borderRadius: 12, padding: 4 },
-                    ]}
-                    className='rounded-full p-3 m-1 bg-neutral-500'>
+                <TouchableOpacity onPress={handleClosePress}>
                     <ChevronLeftIcon
                         size='24'
-                        color='white'
-                        strokeWidth='2.5'
+                        color={colors.primary}
+                        strokeWidth={2.5}
                     />
                 </TouchableOpacity>
             ),
