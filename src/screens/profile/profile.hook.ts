@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { Alert } from "react-native";
 import { z } from "zod";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
@@ -6,28 +7,34 @@ import Toast from "react-native-toast-message";
 
 import { COUNTRIES } from "@constants/countries";
 
+import { useAppDispatch, useAppSelector } from "@stores/hooks";
+import { authenticationSelector, logout } from "@stores/authenticationSlice";
+
 import type { CountryProps } from "@typings/constants";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { type RootStackParamsList, RouteStackList } from "@typings/route";
-import { ActionKind, isEditingReducer, type ProfileDataState } from "./reducer";
-import { Alert } from "react-native";
 
-const initialProfileState: ProfileDataState = {
-    avatar: {
-        isEditing: false,
-        data: null,
-    },
-    country: {
-        isEditing: false,
-        data: { code: COUNTRIES[0].code, name: COUNTRIES[0].name },
-    },
-    name: {
-        isEditing: false,
-        data: null,
-    },
-};
+import { ActionKind, isEditingReducer, type ProfileDataState } from "./reducer";
 
 export function useProfileScreen() {
+    const initialProfileState: ProfileDataState = {
+        avatar: {
+            isEditing: false,
+            data: null,
+        },
+        country: {
+            isEditing: false,
+            data: { code: COUNTRIES[0].code, name: COUNTRIES[0].name },
+        },
+        name: {
+            isEditing: false,
+            data: null,
+        },
+    };
+
+    const reduxDispatch = useAppDispatch();
+    const { email } = useAppSelector(authenticationSelector);
+
     const navigation =
         useNavigation<
             NativeStackNavigationProp<RootStackParamsList, RouteStackList>
@@ -44,8 +51,7 @@ export function useProfileScreen() {
                     {
                         text: "Yes, I want to go back",
                         style: "default",
-                        onPress: () =>
-                            navigation.replace(RouteStackList.DRAWER),
+                        onPress: () => navigation.goBack(),
                     },
                     {
                         text: "Cancel",
@@ -54,7 +60,7 @@ export function useProfileScreen() {
                 ],
             );
         } else {
-            navigation.replace(RouteStackList.DRAWER);
+            navigation.goBack();
         }
     }
 
@@ -123,7 +129,6 @@ export function useProfileScreen() {
                 onPress: () => Toast.hide(),
             });
         } else {
-            console.log("salvo");
             dispatch({ type: ActionKind.SAVING });
             Toast.show({
                 type: "success",
@@ -131,6 +136,21 @@ export function useProfileScreen() {
                 onPress: () => Toast.hide(),
             });
         }
+    }
+
+    function handleLogout() {
+        Alert.alert(
+            "Logout",
+            "Are you sure you want to logout? You will need to provide your credentials again",
+            [
+                {
+                    text: "Yes, logout",
+                    style: "destructive",
+                    onPress: () => reduxDispatch(logout()),
+                },
+                { text: "Cancel", style: "cancel" },
+            ],
+        );
     }
 
     const isUpdating =
@@ -147,8 +167,10 @@ export function useProfileScreen() {
         handleChooseCountry,
         handleUpdateProfile,
         handleChangeName,
+        handleLogout,
         isUpdating,
         updatingName,
         profileState: state,
+        email,
     };
 }

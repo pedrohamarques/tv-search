@@ -28,6 +28,7 @@ const mockHookValues = {
     handleEditingNamePress: jest.fn(),
     handleChooseCountry: jest.fn(),
     handleChangeName: jest.fn(),
+    email: "john@test.com",
 };
 
 describe("screens/profile/<ProfileScreen />", () => {
@@ -43,6 +44,8 @@ describe("screens/profile/<ProfileScreen />", () => {
         expect(screen.getByTestId("screens.profile.avatar")).toBeTruthy();
         expect(screen.getByTestId("screens.profile.input-name")).toBeTruthy();
         expect(screen.getByTestId("screens.profile.input-email")).toBeTruthy();
+        expect(screen.getByDisplayValue("john@test.com")).toBeTruthy();
+
         expect(
             screen.getByTestId("screens.profile.countries-dropdown"),
         ).toBeTruthy();

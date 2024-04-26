@@ -1,15 +1,14 @@
+import { Alert } from "react-native";
+import Toast from "react-native-toast-message";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 
 import { useProfileScreen } from "../profile.hook";
-import { RouteStackList } from "@typings/route";
-import { Alert } from "react-native";
-import Toast from "react-native-toast-message";
 
-const mockReplace = jest.fn();
+const mockGoBack = jest.fn();
 
 jest.mock("@react-navigation/native", () => ({
     useNavigation: () => ({
-        replace: mockReplace,
+        goBack: mockGoBack,
     }),
 }));
 
@@ -20,6 +19,26 @@ jest.mock("expo-image-picker", () => ({
     launchImageLibraryAsync: () => mockLaunchImage(),
 }));
 
+const mockAppState = {
+    favorites: {
+        movies: [],
+        cast: [],
+    },
+    authentication: {
+        email: "john@test.com",
+        password: "",
+        isAuthenticated: true,
+    },
+};
+
+const mockUseSelector = jest.fn();
+const mockUseDispatch = jest.fn();
+
+jest.mock("react-redux", () => ({
+    useSelector: (callback: () => void) => mockUseSelector(callback),
+    useDispatch: () => () => mockUseDispatch(),
+}));
+
 const alertSpy = jest.spyOn(Alert, "alert");
 
 const toastSpy = jest.spyOn(Toast, "show");
@@ -27,6 +46,7 @@ const toastSpy = jest.spyOn(Toast, "show");
 describe("screens/profile/useProfileScreen", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        mockUseSelector.mockImplementation(callback => callback(mockAppState));
     });
 
     it("navigates to Home Screen when handleBackPress is called when it is not updating", () => {
@@ -34,8 +54,7 @@ describe("screens/profile/useProfileScreen", () => {
 
         act(() => result.current.handleBackPress());
 
-        expect(mockReplace).toHaveBeenCalledTimes(1);
-        expect(mockReplace).toHaveBeenCalledWith(RouteStackList.DRAWER);
+        expect(mockGoBack).toHaveBeenCalledTimes(1);
     });
 
     it("calls Alert when handleBackPress is pressed and it is updating", () => {
@@ -63,8 +82,7 @@ describe("screens/profile/useProfileScreen", () => {
 
         alertSpy.mock.calls[0][2]?.[0].onPress?.();
 
-        expect(mockReplace).toHaveBeenCalledTimes(1);
-        expect(mockReplace).toHaveBeenCalledWith(RouteStackList.DRAWER);
+        expect(mockGoBack).toHaveBeenCalledTimes(1);
     });
 
     it("updates the avatar when handlePickImage is called successfully", async () => {
@@ -225,5 +243,37 @@ describe("screens/profile/useProfileScreen", () => {
             text2: "Name must be at least 3 characters long",
             onPress: expect.any(Function),
         });
+    });
+
+    it("calls Alert when handleLogout is called and dispatch", () => {
+        const { result } = renderHook(() => useProfileScreen());
+
+        act(() => result.current.handleLogout());
+
+        expect(alertSpy).toHaveBeenCalledTimes(1);
+        expect(alertSpy).toHaveBeenCalledWith(
+            "Logout",
+            "Are you sure you want to logout? You will need to provide your credentials again",
+            [
+                {
+                    text: "Yes, logout",
+                    style: "destructive",
+                    onPress: expect.any(Function),
+                },
+                { text: "Cancel", style: "cancel" },
+            ],
+        );
+    });
+
+    it("dispatches the logout action when it is confirmed in alert after handleLogout is called", () => {
+        const { result } = renderHook(() => useProfileScreen());
+
+        act(() => result.current.handleLogout());
+
+        expect(alertSpy).toHaveBeenCalledTimes(1);
+
+        alertSpy.mock.calls[0][2]?.[0].onPress?.();
+
+        expect(mockUseDispatch).toHaveBeenCalledTimes(1);
     });
 });

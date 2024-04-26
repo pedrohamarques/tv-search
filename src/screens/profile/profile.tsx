@@ -7,11 +7,11 @@ import {
     ScrollView,
     Platform,
 } from "react-native";
-import { ChevronLeftIcon } from "react-native-heroicons/outline";
+import { ChevronLeftIcon, PowerIcon } from "react-native-heroicons/outline";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { PencilIcon } from "react-native-heroicons/outline";
 
-import { styles } from "@themes/index";
+import { colors, styles } from "@themes/index";
 
 import { Avatar } from "@components/avatar";
 import { Input } from "@components/input";
@@ -34,16 +34,20 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
-                <TouchableOpacity
-                    style={[
-                        styles.background,
-                        { padding: 1, borderRadius: 10 },
-                    ]}
-                    onPress={handleBackPress}>
+                <TouchableOpacity onPress={handleBackPress}>
                     <ChevronLeftIcon
                         size='24'
                         strokeWidth={2.5}
-                        color='white'
+                        color={colors.primary}
+                    />
+                </TouchableOpacity>
+            ),
+            headerRight: () => (
+                <TouchableOpacity onPress={handleLogout}>
+                    <PowerIcon
+                        size='28'
+                        strokeWidth={2.5}
+                        color={colors.primary}
                     />
                 </TouchableOpacity>
             ),
@@ -54,12 +58,14 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
         isUpdating,
         profileState,
         updatingName,
+        email,
         handleUpdateProfile,
         handleBackPress,
         handlePickImage,
         handleEditingNamePress,
         handleChooseCountry,
         handleChangeName,
+        handleLogout,
     } = useProfileScreen();
     return (
         <KeyboardAvoidingView
@@ -120,6 +126,7 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                         />
                         <Input.Field
                             placeholder='Insert your e-mail'
+                            value={email}
                             keyboardType='email-address'
                             textContentType='emailAddress'
                             autoCorrect={false}
@@ -135,8 +142,9 @@ export function ProfileScreen({ navigation }: ProfileScreenNavigationProps) {
                     />
                 </View>
 
-                <View className='w-full self-center mt-6 flex-row justify-center items-center'>
+                <View className=' self-center mt-6 flex-row justify-center items-center'>
                     <ConfirmButton
+                        title='Update Profile'
                         onPress={handleUpdateProfile}
                         disabled={!isUpdating}
                         testID='screens.profile.confirm-button'
