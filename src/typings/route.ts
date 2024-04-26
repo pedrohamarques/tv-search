@@ -18,6 +18,7 @@ export enum RouteStackList {
 export enum PublicStackList {
     WELCOME = "WelcomeScreen",
     SIGN_IN = "SignInScreen",
+    SIGN_UP = "SignUpScreen",
 }
 
 export type RootDrawerParamsList = {
@@ -45,4 +46,5 @@ export type RootStackParamsList = {
 export type PublicStackParamsList = {
     [PublicStackList.WELCOME]: undefined;
     [PublicStackList.SIGN_IN]: undefined;
+    [PublicStackList.SIGN_UP]: undefined;
 };
