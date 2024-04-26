@@ -10,6 +10,7 @@ type InputProps = React.PropsWithChildren & {
     title: string;
     isEditing?: boolean;
     theme?: ThemeOptions;
+    hasError?: boolean;
 };
 
 function Input({
@@ -18,16 +19,17 @@ function Input({
     title,
     isEditing = false,
     theme = "dark",
+    hasError,
 }: InputProps) {
     return (
         <View>
             <Text
-                className={`${theme === "dark" ? "text-yellow-500" : "text-gray-900"} font-bold pl-2 mt-2`}>
+                className={`${theme === "dark" ? "text-yellow-500" : "text-gray-900"} font-bold pl-2 mt-2 ${hasError ? "text-red-700" : ""}`}>
                 {title}
             </Text>
             <View className='flex-row items-center'>
                 <View
-                    className={`w-full h-16 flex-row items-center my-2 p-2 pl-4 border ${theme === "dark" ? "  border-gray-700" : "border-gray-100"} rounded-lg ${theme === "dark" ? (!isEditing ? "bg-gray-700" : "bg-gray-950") : "bg-white"}`}
+                    className={`w-full h-16 flex-row items-center my-2 p-2 pl-4 border ${theme === "dark" ? "  border-gray-700" : "border-gray-100"} rounded-lg ${theme === "dark" ? (!isEditing ? "bg-gray-700" : "bg-gray-950") : "bg-white"} ${hasError ? "border-red-700" : ""}`}
                     testID={testID}>
                     {children}
                 </View>
@@ -51,7 +53,7 @@ function Field({
     return (
         <View className='flex-1' testID={testID}>
             <TextInput
-                className={`flex-1 ${theme === "dark" ? "text-white" : "text-gray-900"}justify-center text-lg pl-4 pb-2 ${!editable && "font-semibold text-gray-900"}`}
+                className={`flex-1 ${theme === "dark" ? "text-white " : "text-gray-900"} justify-center text-lg pl-4 pb-2 ${!editable && "font-semibold text-gray-900"}`}
                 placeholderTextColor='#b7b7b7'
                 textAlignVertical='top'
                 editable={editable}
