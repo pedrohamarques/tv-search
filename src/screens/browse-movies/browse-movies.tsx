@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 
-import { styles } from "@themes/index";
+import { colors, styles } from "@themes/index";
 
 import { imageURI } from "@constants/url";
 
@@ -34,16 +34,10 @@ export function BrowseMoviesScreen({
     useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
-                <TouchableOpacity
-                    onPress={handleGoBackPress}
-                    style={[
-                        styles.background,
-                        { borderRadius: 12, padding: 4 },
-                    ]}
-                    className='rounded-full p-3 m-1 bg-neutral-500'>
+                <TouchableOpacity onPress={handleGoBackPress}>
                     <ChevronLeftIcon
                         size='24'
-                        color='white'
+                        color={colors.primary}
                         strokeWidth='2.5'
                     />
                 </TouchableOpacity>
