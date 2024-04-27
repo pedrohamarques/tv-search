@@ -20,7 +20,7 @@ function EmailIcon() {
 export function WelcomeScreen() {
     const isIos = Platform.OS === "ios";
 
-    const { handleSignInPress } = useWelcomeScreen();
+    const { handleSignInPress, handleSignUpPress } = useWelcomeScreen();
     return (
         <PublicBackground testID='screens.welcome.public-background'>
             <View className='h-1/2 my-10 justify-center'>
@@ -43,6 +43,7 @@ export function WelcomeScreen() {
                     title='Sign up with e-mail'
                     Logo={EmailIcon}
                     testID='screens.welcome.button-email'
+                    onPress={handleSignUpPress}
                 />
 
                 <TouchableWithoutFeedback

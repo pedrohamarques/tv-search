@@ -10,7 +10,12 @@ export function useWelcomeScreen() {
     function handleSignInPress() {
         navigation.navigate(PublicStackList.SIGN_IN);
     }
+
+    function handleSignUpPress() {
+        navigation.navigate(PublicStackList.SIGN_UP);
+    }
     return {
         handleSignInPress,
+        handleSignUpPress,
     };
 }
