@@ -35,7 +35,6 @@ export function useSignInScreen() {
             password,
         });
 
-        console.log(data, "data");
         console.log(
             error?.code,
             error?.message,
