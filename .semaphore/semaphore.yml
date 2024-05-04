@@ -40,6 +40,11 @@ blocks:
             - echo "Unit tests 3/3"
             - cache restore
             - npm test -- --shard=3/3
+      env_vars:
+        - name: SUPABASE_URL
+          value: 'https://gkucaqfxkcwclbgdrmcg.supabase.co'
+        - name: SUPABASE_ANON_KEY
+          value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdrdWNhcWZ4a2N3Y2xiZ2RybWNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM4OTM1MTYsImV4cCI6MjAyOTQ2OTUxNn0.XJxjlJ9ft1ADJzoa1W4FcB-BsQ1tEgmvzBAN_K-jUnY
 promotions:
   - name: Staging Deployment
     pipeline_file: pipeline_2.yml
