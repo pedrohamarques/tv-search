@@ -1,16 +1,16 @@
 version: v1.0
 name: Pipeline 3
 agent:
-    machine:
-        type: e1-standard-2
-        os_image: ubuntu2004
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
 blocks:
-    - name: Production Deploy
-      task:
-          jobs:
-              - name: Deploying
-                commands:
-                    - echo "Deploying to prodution using key $TMDB_API_KEY"
-          env_vars:
-              - name: TMDB_API_KEY
-                value: 1f311fa26ac52fd315da26d503a29ca6
+  - name: Production Deploy
+    task:
+      jobs:
+        - name: Deploying
+          commands:
+            - echo "Deploying to prodution using key $TMDB_API_KEY"
+      env_vars:
+        - name: TMDB_API_KEY
+          value: 1f311fa26ac52fd315da26d503a29ca6
